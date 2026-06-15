@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Алгебраїчні дроби — Шпаргалка</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+:root {
+  --bg:#f7f4f0; --card:#fff;
+  --pink:#e84fa3; --pink-light:#fde8f4; --pink-mid:#f9c9e8;
+  --purple:#7c5cbf; --purple-light:#ede8f8;
+  --green:#17a06b; --green-light:#e3f5eb;
+  --red:#d43030; --red-light:#fde8e8;
+  --ink:#1a1228; --muted:#7a6e82; --border:#e5dff0;
+  --mono:'JetBrains Mono',monospace;
+  --display:'DM Serif Display',serif;
+  --body:'Space Grotesk',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);padding:48px 24px;}
+.page{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px;}
+.katex{font-size:1.05em;}
+
+/* HEADER */
+.header{display:flex;align-items:center;justify-content:space-between;padding:32px 36px;background:var(--ink);border-radius:20px;position:relative;overflow:hidden;gap:20px;}
+.header::before{content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:var(--pink);opacity:0.15;}
+.header::after{content:'';position:absolute;right:40px;bottom:-80px;width:160px;height:160px;border-radius:50%;background:var(--purple);opacity:0.2;}
+.header-text{position:relative;z-index:1;}
+.header-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--pink);margin-bottom:6px;}
+.header-title{font-family:var(--display);font-size:38px;color:#fff;line-height:1.1;}
+.header-title span{color:var(--pink);}
+.header-badge{position:relative;z-index:1;background:var(--pink);color:#fff;font-family:var(--mono);font-size:12px;font-weight:500;padding:8px 16px;border-radius:50px;white-space:nowrap;flex-shrink:0;}
+
+/* SECTION LABEL */
+.section-label{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.section-label::before{content:'';display:block;width:24px;height:2px;background:var(--pink);border-radius:2px;}
+
+/* DIVIDER */
+.divider{height:2px;background:linear-gradient(90deg,var(--pink),var(--purple));border-radius:2px;opacity:0.25;}
+
+/* NAV */
+.chapter-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.chapter-item{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:10px;}
+.chapter-num{font-family:var(--mono);font-size:11px;color:var(--pink);background:var(--pink-light);border-radius:8px;padding:4px 8px;white-space:nowrap;font-weight:500;}
+.chapter-name{font-size:12px;font-weight:600;color:var(--ink);line-height:1.3;}
+
+/* DEF CARD */
+.def-card{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:24px 28px;display:flex;gap:22px;align-items:flex-start;}
+.def-text{flex:1;}
+.def-text h3{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.def-text p{font-size:13.5px;color:var(--muted);line-height:1.65;}
+.def-text p strong{color:var(--ink);}
+.def-formula-box{background:var(--pink-light);border:2px solid var(--pink-mid);border-radius:14px;padding:18px 22px;font-size:20px;text-align:center;flex-shrink:0;}
+
+/* TWO COL */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+
+/* FORMULA CARDS */
+.f-card{background:var(--card);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;}
+.f-card-head{padding:14px 20px;display:flex;align-items:center;gap:12px;border-bottom:1.5px solid var(--border);}
+.fh-pink{background:var(--pink-light);}
+.fh-purple{background:var(--purple-light);}
+.f-badge{font-family:var(--mono);font-size:11px;font-weight:700;padding:4px 12px;border-radius:8px;color:#fff;}
+.fb-pink{background:var(--pink);}
+.fb-purple{background:var(--purple);}
+.f-title{font-size:13px;font-weight:700;color:var(--ink);}
+.f-body{padding:18px 20px;display:flex;flex-direction:column;gap:12px;}
+.f-formula{font-size:17px;text-align:center;background:rgba(255,255,255,0.7);border:1px solid var(--border);border-radius:10px;padding:13px 16px;}
+.f-note{font-size:12.5px;color:var(--muted);line-height:1.6;}
+.f-note strong{color:var(--ink);}
+.f-example{border-radius:10px;padding:11px 14px;font-size:13px;line-height:1.7;}
+.fe-pink{background:var(--pink-light);}
+.fe-purple{background:var(--purple-light);}
+
+/* SMALL FORMULA CARDS */
+.small-f-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.small-f{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px 16px;display:flex;flex-direction:column;gap:10px;text-align:center;}
+.small-f.sf-pink{background:var(--pink-light);border-color:var(--pink-mid);}
+.small-f.sf-purple{background:var(--purple-light);border-color:#d0c4f0;}
+.sf-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);}
+.sf-from{font-size:15px;color:var(--ink);}
+.sf-arrow{color:var(--muted);font-size:13px;}
+.sf-to{font-size:16px;font-weight:700;}
+.sf-pink .sf-to{color:var(--pink);}
+.sf-purple .sf-to{color:var(--purple);}
+
+/* METHOD STEPS */
+.method-header{background:linear-gradient(135deg,#1e0e35,#3a1f6e);border-radius:20px;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.method-header h2{color:#fff;font-size:16px;font-weight:700;margin-bottom:3px;}
+.method-header p{color:rgba(255,255,255,0.5);font-size:12px;}
+.method-badge{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:8px 16px;font-family:var(--mono);font-size:12px;color:var(--pink);font-weight:600;white-space:nowrap;}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.step-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;}
+.step-num{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--pink);opacity:0.35;line-height:1;}
+.step-title{font-size:13px;font-weight:700;color:var(--ink);}
+.step-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+
+/* WORKED */
+.worked-header{background:linear-gradient(135deg,#1e0e35,#3a1f6e);border-radius:20px;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.worked-header h2{color:#fff;font-size:16px;font-weight:700;margin-bottom:3px;}
+.worked-header p{color:rgba(255,255,255,0.5);font-size:12px;}
+.worked-badge{background:var(--pink);color:#fff;font-family:var(--mono);font-size:12px;font-weight:600;padding:8px 14px;border-radius:50px;white-space:nowrap;flex-shrink:0;}
+.parts-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.part-card{background:var(--card);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;}
+.part-head{padding:11px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.part-letter{font-family:var(--mono);font-size:12px;font-weight:700;color:#fff;width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pl-pink{background:var(--pink);}
+.pl-purple{background:var(--purple);}
+.part-q{font-size:13px;font-weight:600;color:var(--ink);}
+.part-body{padding:14px 16px;display:flex;flex-direction:column;gap:8px;}
+.step{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;}
+.step-tag{font-family:var(--mono);font-size:10px;color:var(--muted);background:var(--bg);border-radius:4px;padding:2px 6px;flex-shrink:0;margin-top:2px;white-space:nowrap;}
+.step-text{color:var(--ink);}
+.ans-row{border-radius:10px;padding:9px 13px;display:flex;align-items:center;gap:8px;margin-top:4px;}
+.ans-pink{background:var(--pink-light);border:1.5px solid var(--pink-mid);}
+.ans-purple{background:var(--purple-light);border:1.5px solid #d0c4f0;}
+.ans-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+
+/* TABLE */
+.table-wrap{background:var(--card);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;}
+.table-head-dark{background:var(--ink);padding:14px 20px;}
+.table-head-dark h3{color:#fff;font-size:14px;font-weight:700;}
+.table-head-dark p{color:rgba(255,255,255,0.45);font-size:11px;margin-top:2px;}
+.match-table{width:100%;border-collapse:collapse;}
+.match-table th{background:var(--purple-light);padding:10px 16px;text-align:center;font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--purple);border-bottom:1.5px solid var(--border);border-right:1px solid var(--border);}
+.match-table th:last-child{border-right:none;}
+.match-table td{padding:10px 16px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);font-size:13px;color:var(--ink);vertical-align:middle;}
+.match-table td:last-child{border-right:none;}
+.match-table tr:last-child td{border-bottom:none;}
+.match-table tr:hover td{background:#faf8ff;}
+.hl-pink{background:var(--pink-light);color:var(--pink);font-weight:700;}
+
+/* EXERCISES */
+.hw-header{background:linear-gradient(135deg,#1a0a2e,#3a1060);border-radius:20px;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.hw-header h2{color:#fff;font-size:16px;font-weight:700;margin-bottom:3px;}
+.hw-header p{color:rgba(255,255,255,0.5);font-size:12px;}
+.hw-badge{background:var(--purple);color:#fff;font-family:var(--mono);font-size:12px;font-weight:600;padding:8px 14px;border-radius:50px;white-space:nowrap;}
+.block-title{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.block-title::before{content:'';display:block;width:14px;height:2px;background:var(--purple);border-radius:2px;}
+.open-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.open-item{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:8px;}
+.open-num{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.open-expr{font-size:16px;color:var(--ink);line-height:1.4;min-height:34px;display:flex;align-items:center;}
+.open-line{border:none;border-top:1.5px dashed var(--border);margin:2px 0;}
+.open-ans{font-family:var(--mono);font-size:11px;color:var(--muted);min-height:24px;}
+
+/* MCQ */
+.mcq-section-header{background:var(--ink);border-radius:16px;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.mcq-section-header h3{color:#fff;font-size:14px;font-weight:700;}
+.mcq-section-header p{color:rgba(255,255,255,0.45);font-size:11px;margin-top:2px;}
+.score-pill{background:var(--pink);color:#fff;font-family:var(--mono);font-size:12px;font-weight:700;padding:6px 14px;border-radius:50px;white-space:nowrap;transition:background 0.3s;}
+.mcq-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.mcq-card{background:var(--card);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;transition:border-color 0.2s;}
+.mcq-card.answered-correct{border-color:var(--green);}
+.mcq-card.answered-wrong{border-color:var(--red);}
+.mcq-card-head{padding:11px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.mcq-card-num{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--muted);background:var(--bg);border-radius:6px;padding:3px 8px;}
+.mcq-card-q{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.4;}
+.mcq-card-body{padding:14px 16px;display:flex;flex-direction:column;gap:8px;}
+.mcq-opt{display:flex;align-items:center;gap:10px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--ink);cursor:pointer;transition:background 0.15s,border-color 0.15s,transform 0.1s;user-select:none;}
+.mcq-opt:hover:not(.locked){background:var(--purple-light);border-color:#d0c4f0;}
+.mcq-opt:active:not(.locked){transform:scale(0.98);}
+.mcq-opt-letter{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--purple);background:var(--purple-light);border-radius:6px;padding:2px 8px;flex-shrink:0;transition:background 0.15s,color 0.15s;}
+.mcq-opt.opt-correct{background:var(--green-light);border-color:var(--green);}
+.mcq-opt.opt-correct .mcq-opt-letter{background:var(--green);color:#fff;}
+.mcq-opt.opt-wrong{background:var(--red-light);border-color:var(--red);}
+.mcq-opt.opt-wrong .mcq-opt-letter{background:var(--red);color:#fff;}
+.mcq-opt.opt-reveal{background:var(--green-light);border-color:var(--green);opacity:0.75;}
+.mcq-opt.opt-reveal .mcq-opt-letter{background:var(--green);color:#fff;}
+.mcq-feedback{display:none;border-radius:10px;padding:10px 13px;font-size:12.5px;font-weight:600;line-height:1.4;margin-top:2px;}
+.mcq-feedback.show{display:block;}
+.fb-correct{background:var(--green-light);color:var(--green);}
+.fb-wrong{background:var(--red-light);color:var(--red);}
+.check-bar{display:flex;gap:12px;flex-wrap:wrap;}
+.btn{font-family:var(--body);font-size:14px;font-weight:600;padding:11px 22px;border-radius:12px;border:none;cursor:pointer;transition:opacity 0.15s,transform 0.1s;}
+.btn:hover{opacity:0.88;}
+.btn:active{transform:scale(0.97);}
+.btn-check{background:var(--purple);color:#fff;}
+.btn-reset{background:var(--card);color:var(--ink);border:1.5px solid var(--border);}
+
+/* NOTE BOX */
+.note-box{background:var(--ink);border-radius:16px;padding:18px 24px;display:flex;align-items:flex-start;gap:14px;}
+.note-icon{font-size:22px;flex-shrink:0;margin-top:2px;}
+.note-body h4{color:var(--pink);font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;}
+.note-body p{color:rgba(255,255,255,0.75);font-size:13px;line-height:1.6;}
+.note-body .katex{color:#fff;}
+
+/* FOOTER */
+.footer{display:flex;justify-content:space-between;align-items:center;padding:0 4px;font-size:11px;color:var(--muted);font-family:var(--mono);}
+
+@media(max-width:640px){
+  .chapter-nav{grid-template-columns:1fr 1fr;}
+  .two-col,.parts-grid,.mcq-grid{grid-template-columns:1fr;}
+  .three-col,.small-f-grid{grid-template-columns:1fr 1fr;}
+  .steps-grid{grid-template-columns:1fr 1fr;}
+  .open-grid{grid-template-columns:1fr 1fr;}
+  .header{flex-direction:column;align-items:flex-start;}
+  .header-title{font-size:30px;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-text">
+    <div class="header-eyebrow">Алгебра · 8 клас</div>
+    <h1 class="header-title">Алгебраїчні<br><span>дроби</span></h1>
+  </div>
+  <div class="header-badge">Algebraic Fractions</div>
+</header>
+
+<!-- NAV -->
+<nav class="chapter-nav">
+  <div class="chapter-item"><span class="chapter-num">§1</span><span class="chapter-name">Визначення та скорочення</span></div>
+  <div class="chapter-item"><span class="chapter-num">§2</span><span class="chapter-name">Додавання та віднімання</span></div>
+  <div class="chapter-item"><span class="chapter-num">§3</span><span class="chapter-name">Формули скороченого множення</span></div>
+  <div class="chapter-item"><span class="chapter-num">§4</span><span class="chapter-name">Розкладання на множники</span></div>
+</nav>
+
+<!-- §1 DEFINITION -->
+<div class="section-label">§1 · Що таке алгебраїчний дріб?</div>
+<div class="def-card">
+  <div class="def-text">
+    <h3>Визначення / Definition</h3>
+    <p>
+      <strong>Алгебраїчний дріб</strong> — це вираз виду \(\dfrac{P}{Q}\), де \(P\) і \(Q\) — многочлени,
+      і \(Q \neq 0\). Алгебраїчний дріб <strong>не визначений</strong>, коли знаменник дорівнює нулю.<br><br>
+      An <strong>Algebraic Fraction</strong> is an expression of the form \(\dfrac{P}{Q}\) where \(P\), \(Q\)
+      are polynomials and \(Q \neq 0\).
+    </p>
+  </div>
+  <div class="def-formula-box">\(\dfrac{P(x)}{Q(x)},\quad Q\neq 0\)</div>
+</div>
+
+<!-- SIMPLIFICATION -->
+<div class="section-label">§1 · Скорочення дробу (Simplification)</div>
+<div class="two-col">
+  <div class="f-card">
+    <div class="f-card-head fh-pink">
+      <span class="f-badge fb-pink">Правило</span>
+      <span class="f-title">Скорочення алгебраїчного дробу</span>
+    </div>
+    <div class="f-body">
+      <div class="f-formula">\(\dfrac{A \cdot C}{B \cdot C} = \dfrac{A}{B}, \quad C \neq 0\)</div>
+      <div class="f-note">
+        <strong>Крок 1:</strong> Розклади чисельник і знаменник на множники.<br>
+        <strong>Крок 2:</strong> Скороти спільні множники.<br>
+        <strong>Увага:</strong> Можна скорочувати тільки <strong>множники</strong>, не доданки!
+      </div>
+      <div class="f-example fe-pink">
+        \(\dfrac{6x+12}{6x} = \dfrac{6(x+2)}{6x} = \dfrac{x+2}{x}\)
+      </div>
+    </div>
+  </div>
+  <div class="f-card">
+    <div class="f-card-head fh-purple">
+      <span class="f-badge fb-purple">Приклади</span>
+      <span class="f-title">Різні типи скорочення</span>
+    </div>
+    <div class="f-body">
+      <div class="f-example fe-purple">
+        \(\dfrac{a(x+2)}{b(x+2)} = \dfrac{a}{b}\)
+      </div>
+      <div class="f-example fe-purple">
+        \(\dfrac{4(a-6)^2}{(a-6)^3} = \dfrac{4}{a-6}\)
+      </div>
+      <div class="f-example fe-purple">
+        \(\dfrac{7x-21y}{5x-15y} = \dfrac{7(x-3y)}{5(x-3y)} = \dfrac{7}{5}\)
+      </div>
+      <div class="f-example fe-pink">
+        \(\dfrac{4a-20b}{12ab} = \dfrac{4(a-5b)}{12ab} = \dfrac{a-5b}{3ab}\)
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- §2 ADDITION & SUBTRACTION -->
+<div class="section-label">§2 · Додавання та віднімання дробів</div>
+
+<!-- Same denominator -->
+<div class="f-card" style="width:100%">
+  <div class="f-card-head fh-pink">
+    <span class="f-badge fb-pink">Однакові знаменники</span>
+    <span class="f-title">Same Denominator — просто складаємо чисельники</span>
+  </div>
+  <div class="f-body" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+    <div>
+      <div class="f-formula">\(\dfrac{a}{n} + \dfrac{b}{n} = \dfrac{a+b}{n}\)</div>
+    </div>
+    <div>
+      <div class="f-formula">\(\dfrac{a}{n} - \dfrac{b}{n} = \dfrac{a-b}{n}\)</div>
+    </div>
+    <div>
+      <div class="f-example fe-pink">
+        \(\dfrac{x}{6}+\dfrac{y}{6}=\dfrac{x+y}{6}\)<br>
+        \(\dfrac{m}{n}+\dfrac{4m}{n}=\dfrac{5m}{n}\)
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Different denominators -->
+<div class="section-label" style="margin-top:-8px">Різні знаменники / Different Denominators</div>
+<div class="method-header">
+  <div>
+    <h2>Алгоритм зведення до спільного знаменника</h2>
+    <p>Common Denominator — завжди в такому порядку</p>
+  </div>
+  <div class="method-badge">LCM Method</div>
+</div>
+<div class="steps-grid">
+  <div class="step-card">
+    <div class="step-num">1</div>
+    <div class="step-title">Знайди НСК</div>
+    <div class="step-desc">Знайди найменше спільне кратне (LCM) знаменників</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">2</div>
+    <div class="step-title">Додаткові множники</div>
+    <div class="step-desc">Для кожного дробу знайди додатковий множник = НСК ÷ знаменник</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">3</div>
+    <div class="step-title">Розшир дроби</div>
+    <div class="step-desc">Помнож чисельник і знаменник кожного дробу на додатковий множник</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">4</div>
+    <div class="step-title">Склади / Відніми</div>
+    <div class="step-desc">Склади або відніми чисельники. Спрости результат якщо можливо</div>
+  </div>
+</div>
+
+<!-- WORKED EXAMPLES addition -->
+<div class="worked-header">
+  <div>
+    <h2>Розібрані приклади — Додавання та Віднімання</h2>
+    <p>Різні знаменники → зводимо до спільного</p>
+  </div>
+  <div class="worked-badge">Different Denominators</div>
+</div>
+
+<div class="parts-grid">
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-pink">1</span><span class="part-q">\(\dfrac{4}{x} - \dfrac{3}{y}\)</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">НСК</span><span class="step-text">НСК\((x,\,y) = xy\)</span></div>
+      <div class="step"><span class="step-tag">множники</span><span class="step-text">\(\dfrac{4}{x} = \dfrac{4y}{xy}\);&nbsp; \(\dfrac{3}{y} = \dfrac{3x}{xy}\)</span></div>
+      <div class="step"><span class="step-tag">результат</span><span class="step-text">\(\dfrac{4y}{xy} - \dfrac{3x}{xy} = \dfrac{4y-3x}{xy}\)</span></div>
+      <div class="ans-row ans-pink"><span class="ans-label">Відповідь</span><span>\(\dfrac{4y-3x}{xy}\)</span></div>
+    </div>
+  </div>
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-purple">2</span><span class="part-q">\(\dfrac{m}{4n} + \dfrac{m}{6n}\)</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">НСК</span><span class="step-text">НСК\((4n,\,6n) = 12n\)</span></div>
+      <div class="step"><span class="step-tag">розширення</span><span class="step-text">\(\dfrac{m \cdot 3}{4n \cdot 3} + \dfrac{m \cdot 2}{6n \cdot 2} = \dfrac{3m}{12n} + \dfrac{2m}{12n}\)</span></div>
+      <div class="step"><span class="step-tag">результат</span><span class="step-text">\(\dfrac{3m+2m}{12n} = \dfrac{5m}{12n}\)</span></div>
+      <div class="ans-row ans-purple"><span class="ans-label">Відповідь</span><span>\(\dfrac{5m}{12n}\)</span></div>
+    </div>
+  </div>
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-pink">3</span><span class="part-q">\(\dfrac{c}{b} - \dfrac{d}{3b}\)</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">НСК</span><span class="step-text">НСК\((b,\,3b) = 3b\)</span></div>
+      <div class="step"><span class="step-tag">розширення</span><span class="step-text">\(\dfrac{c \cdot 3}{b \cdot 3} - \dfrac{d}{3b} = \dfrac{3c}{3b} - \dfrac{d}{3b}\)</span></div>
+      <div class="step"><span class="step-tag">результат</span><span class="step-text">\(\dfrac{3c - d}{3b}\)</span></div>
+      <div class="ans-row ans-pink"><span class="ans-label">Відповідь</span><span>\(\dfrac{3c-d}{3b}\)</span></div>
+    </div>
+  </div>
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-purple">4</span><span class="part-q">\(\dfrac{2b-7c}{6} - \dfrac{3b+2c}{15}\)</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">НСК</span><span class="step-text">НСК\((6,\,15) = 30\)</span></div>
+      <div class="step"><span class="step-tag">розширення</span><span class="step-text">\(\dfrac{5(2b-7c)}{30} - \dfrac{2(3b+2c)}{30}\)</span></div>
+      <div class="step"><span class="step-tag">чисельник</span><span class="step-text">\(10b-35c - 6b-4c = 4b-39c\)</span></div>
+      <div class="ans-row ans-purple"><span class="ans-label">Відповідь</span><span>\(\dfrac{4b-39c}{30}\)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- §3 SPECIAL FORMULAS -->
+<div class="section-label">§3 · Формули скороченого множення (Special Products)</div>
+
+<div class="small-f-grid">
+  <div class="small-f sf-pink">
+    <div class="sf-label">Різниця квадратів / Difference of Squares</div>
+    <div class="sf-from">\(a^2 - b^2\)</div>
+    <div class="sf-arrow">↓</div>
+    <div class="sf-to">\((a+b)(a-b)\)</div>
+  </div>
+  <div class="small-f sf-purple">
+    <div class="sf-label">Perfect Square (plus)</div>
+    <div class="sf-from">\(a^2 + 2ab + b^2\)</div>
+    <div class="sf-arrow">↓</div>
+    <div class="sf-to">\((a+b)^2\)</div>
+  </div>
+  <div class="small-f sf-purple">
+    <div class="sf-label">Perfect Square (minus)</div>
+    <div class="sf-from">\(a^2 - 2ab + b^2\)</div>
+    <div class="sf-arrow">↓</div>
+    <div class="sf-to">\((a-b)^2\)</div>
+  </div>
+</div>
+
+<!-- HOW FORMULAS HELP SIMPLIFY -->
+<div class="f-card" style="width:100%">
+  <div class="f-card-head fh-purple">
+    <span class="f-badge fb-purple">Застосування</span>
+    <span class="f-title">Як формули допомагають скорочувати дроби</span>
+  </div>
+  <div class="f-body" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+    <div class="f-example fe-purple">
+      <strong>Різниця квадратів:</strong><br>
+      \(\dfrac{y^2-25}{10+2y} = \dfrac{(y+5)(y-5)}{2(5+y)} = \dfrac{y-5}{2}\)
+    </div>
+    <div class="f-example fe-purple">
+      <strong>Повний квадрат:</strong><br>
+      \(\dfrac{a^2+4a+4}{9a+18} = \dfrac{(a+2)^2}{9(a+2)} = \dfrac{a+2}{9}\)
+    </div>
+    <div class="f-example fe-pink">
+      <strong>Повний квадрат (мінус):</strong><br>
+      \(\dfrac{c^2-6c+9}{c^2-9} = \dfrac{(c-3)^2}{(c+3)(c-3)} = \dfrac{c-3}{c+3}\)
+    </div>
+    <div class="f-example fe-pink">
+      <strong>Factoring + Difference of Squares:</strong><br>
+      \(\dfrac{x^2+8x+12}{1} \to (x+6)(x+2)\)<br>
+      Перевірка: \(6 \times 2=12\,\checkmark\;\; 6+2=8\,\checkmark\)
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- §4 FACTORISING QUADRATICS -->
+<div class="section-label">§4 · Factorising Quadratics — метод «умножити і скласти»</div>
+<div class="method-header">
+  <div>
+    <h2>Розкладання на множники: \(x^2+bx+c = (x+p)(x+q)\)</h2>
+    <p>Умова: \(p \times q = c\) та \(p + q = b\)</p>
+  </div>
+  <div class="method-badge">× і + метод</div>
+</div>
+<div class="steps-grid">
+  <div class="step-card">
+    <div class="step-num">1</div>
+    <div class="step-title">Зчитай \(c\) і \(b\)</div>
+    <div class="step-desc">Визнач вільний член \(c\) та коефіцієнт при \(x\)</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">2</div>
+    <div class="step-title">Знайди \(p\) і \(q\)</div>
+    <div class="step-desc">Такі, що \(p \times q = c\) і \(p + q = b\)</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">3</div>
+    <div class="step-title">Запиши дужки</div>
+    <div class="step-desc">\((x+p)(x+q)\) — стеж за знаками!</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">4</div>
+    <div class="step-title">Перевір!</div>
+    <div class="step-desc">Розкрий дужки назад — маєш отримати початковий вираз</div>
+  </div>
+</div>
+
+<!-- MATCH TABLE -->
+<div class="table-wrap">
+  <div class="table-head-dark">
+    <h3>Таблиця відповідностей — Match the Expressions</h3>
+    <p>З'єднай квадратний тричлен із його розкладом</p>
+  </div>
+  <table class="match-table">
+    <thead>
+      <tr>
+        <th>Вираз</th>
+        <th>\(c\) (×)</th>
+        <th>\(b\) (+)</th>
+        <th>\(p\) та \(q\)</th>
+        <th>Розклад (Factored form)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>\(x^2 + 8x + 12\)</td><td>\(+12\)</td><td>\(+8\)</td><td>\(+6,\;+2\)</td><td class="hl-pink">\((x+6)(x+2)\)</td>
+      </tr>
+      <tr>
+        <td>\(x^2 + 9x + 20\)</td><td>\(+20\)</td><td>\(+9\)</td><td>\(+4,\;+5\)</td><td class="hl-pink">\((x+4)(x+5)\)</td>
+      </tr>
+      <tr>
+        <td>\(x^2 - 11x + 28\)</td><td>\(+28\)</td><td>\(-11\)</td><td>\(-7,\;-4\)</td><td class="hl-pink">\((x-7)(x-4)\)</td>
+      </tr>
+      <tr>
+        <td>\(x^2 - 7x + 10\)</td><td>\(+10\)</td><td>\(-7\)</td><td>\(-2,\;-5\)</td><td class="hl-pink">\((x-2)(x-5)\)</td>
+      </tr>
+      <tr>
+        <td>\(x^2 + 5x - 36\)</td><td>\(-36\)</td><td>\(+5\)</td><td>\(+9,\;-4\)</td><td class="hl-pink">\((x+9)(x-4)\)</td>
+      </tr>
+      <tr>
+        <td>\(x^2 + 4x - 21\)</td><td>\(-21\)</td><td>\(+4\)</td><td>\(+7,\;-3\)</td><td class="hl-pink">\((x+7)(x-3)\)</td>
+      </tr>
+      <tr>
+        <td>\(x^2 - x - 12\)</td><td>\(-12\)</td><td>\(-1\)</td><td>\(+3,\;-4\)</td><td class="hl-pink">\((x-4)(x+3)\)</td>
+      </tr>
+      <tr>
+        <td>\(x^2 - 3x - 10\)</td><td>\(-10\)</td><td>\(-3\)</td><td>\(+2,\;-5\)</td><td class="hl-pink">\((x+2)(x-5)\)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="note-box">
+  <div class="note-icon">💡</div>
+  <div class="note-body">
+    <h4>Правило знаків — Signs Rule</h4>
+    <p>
+      \(c > 0\) і \(b > 0\) → обидва \(p,q\) <strong>позитивні</strong> &nbsp;·&nbsp;
+      \(c > 0\) і \(b < 0\) → обидва \(p,q\) <strong>негативні</strong><br>
+      \(c < 0\) → \(p\) і \(q\) мають <strong>різні знаки</strong>; більший за модулем отримує знак \(b\)
+    </p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- EXERCISES -->
+<div class="section-label">Завдання для самостійної роботи</div>
+<div class="hw-header">
+  <div>
+    <h2>10 завдань — Algebraic Fractions</h2>
+    <p>Відкриті завдання + Інтерактивний тест</p>
+  </div>
+  <div class="hw-badge">📝 10 завдань</div>
+</div>
+
+<!-- OPEN EXERCISES -->
+<div class="block-title">Блок 1 — Спрости вираз (Simplify)</div>
+<div class="open-grid">
+  <div class="open-item">
+    <div class="open-num">Завдання 1</div>
+    <div class="open-expr">\(\dfrac{6x+12}{6x}\)</div>
+    <hr class="open-line">
+    <div class="open-ans">= ___________</div>
+  </div>
+  <div class="open-item">
+    <div class="open-num">Завдання 2</div>
+    <div class="open-expr">\(\dfrac{4a-20b}{12ab}\)</div>
+    <hr class="open-line">
+    <div class="open-ans">= ___________</div>
+  </div>
+  <div class="open-item">
+    <div class="open-num">Завдання 3</div>
+    <div class="open-expr">\(\dfrac{y^2-25}{10+2y}\)</div>
+    <hr class="open-line">
+    <div class="open-ans">= ___________</div>
+  </div>
+  <div class="open-item">
+    <div class="open-num">Завдання 4</div>
+    <div class="open-expr">\(\dfrac{a^2+4a+4}{9a+18}\)</div>
+    <hr class="open-line">
+    <div class="open-ans">= ___________</div>
+  </div>
+  <div class="open-item">
+    <div class="open-num">Завдання 5</div>
+    <div class="open-expr">\(\dfrac{c^2-6c+9}{c^2-9}\)</div>
+    <hr class="open-line">
+    <div class="open-ans">= ___________</div>
+  </div>
+</div>
+
+<!-- MCQ -->
+<div class="mcq-section-header">
+  <div>
+    <h3>Блок 2 — Тест з перевіркою</h3>
+    <p>Натисни на варіант → одразу дізнаєшся відповідь</p>
+  </div>
+  <div class="score-pill" id="scorePill">0 / 5</div>
+</div>
+<div class="check-bar">
+  <button class="btn btn-check" onclick="checkAll()">✅ Перевірити все</button>
+  <button class="btn btn-reset" onclick="resetAll()">🔄 Скинути</button>
+</div>
+
+<div class="mcq-grid" id="mcqGrid">
+
+  <!-- Q6 — correct: D -->
+  <div class="mcq-card" id="card-q6">
+    <div class="mcq-card-head"><span class="mcq-card-num">Завдання 6</span></div>
+    <div class="mcq-card-body">
+      <div class="mcq-card-q">Яким є результат скорочення дробу \(\dfrac{a(x+2)}{b(x+2)}\)?</div>
+      <div class="mcq-opt" onclick="choose('q6','A')" id="q6-A"><span class="mcq-opt-letter">A</span> \(\dfrac{a+2}{b+2}\)</div>
+      <div class="mcq-opt" onclick="choose('q6','B')" id="q6-B"><span class="mcq-opt-letter">B</span> \(\dfrac{a}{b+2}\)</div>
+      <div class="mcq-opt" onclick="choose('q6','C')" id="q6-C"><span class="mcq-opt-letter">C</span> \(\dfrac{a \cdot 2}{b}\)</div>
+      <div class="mcq-opt" onclick="choose('q6','D')" id="q6-D"><span class="mcq-opt-letter">D</span> \(\dfrac{a}{b}\)</div>
+      <div class="mcq-feedback" id="fb-q6"></div>
+    </div>
+  </div>
+
+  <!-- Q7 — correct: A -->
+  <div class="mcq-card" id="card-q7">
+    <div class="mcq-card-head"><span class="mcq-card-num">Завдання 7</span></div>
+    <div class="mcq-card-body">
+      <div class="mcq-card-q">Обчисли \(\dfrac{x}{6}+\dfrac{y}{6}\):</div>
+      <div class="mcq-opt" onclick="choose('q7','A')" id="q7-A"><span class="mcq-opt-letter">A</span> \(\dfrac{x+y}{6}\)</div>
+      <div class="mcq-opt" onclick="choose('q7','B')" id="q7-B"><span class="mcq-opt-letter">B</span> \(\dfrac{xy}{6}\)</div>
+      <div class="mcq-opt" onclick="choose('q7','C')" id="q7-C"><span class="mcq-opt-letter">C</span> \(\dfrac{x+y}{12}\)</div>
+      <div class="mcq-opt" onclick="choose('q7','D')" id="q7-D"><span class="mcq-opt-letter">D</span> \(\dfrac{x}{y}\)</div>
+      <div class="mcq-feedback" id="fb-q7"></div>
+    </div>
+  </div>
+
+  <!-- Q8 — correct: C -->
+  <div class="mcq-card" id="card-q8">
+    <div class="mcq-card-head"><span class="mcq-card-num">Завдання 8</span></div>
+    <div class="mcq-card-body">
+      <div class="mcq-card-q">Спрости: \(\dfrac{x^2-9}{x+3}\)</div>
+      <div class="mcq-opt" onclick="choose('q8','A')" id="q8-A"><span class="mcq-opt-letter">A</span> \(x+3\)</div>
+      <div class="mcq-opt" onclick="choose('q8','B')" id="q8-B"><span class="mcq-opt-letter">B</span> \(x^2-3\)</div>
+      <div class="mcq-opt" onclick="choose('q8','C')" id="q8-C"><span class="mcq-opt-letter">C</span> \(x-3\)</div>
+      <div class="mcq-opt" onclick="choose('q8','D')" id="q8-D"><span class="mcq-opt-letter">D</span> \(\dfrac{x-3}{x+3}\)</div>
+      <div class="mcq-feedback" id="fb-q8"></div>
+    </div>
+  </div>
+
+  <!-- Q9 — correct: B -->
+  <div class="mcq-card" id="card-q9">
+    <div class="mcq-card-head"><span class="mcq-card-num">Завдання 9</span></div>
+    <div class="mcq-card-body">
+      <div class="mcq-card-q">Розклади на множники: \(x^2 - x - 12\)</div>
+      <div class="mcq-opt" onclick="choose('q9','A')" id="q9-A"><span class="mcq-opt-letter">A</span> \((x-6)(x+2)\)</div>
+      <div class="mcq-opt" onclick="choose('q9','B')" id="q9-B"><span class="mcq-opt-letter">B</span> \((x-4)(x+3)\)</div>
+      <div class="mcq-opt" onclick="choose('q9','C')" id="q9-C"><span class="mcq-opt-letter">C</span> \((x+4)(x-3)\)</div>
+      <div class="mcq-opt" onclick="choose('q9','D')" id="q9-D"><span class="mcq-opt-letter">D</span> \((x-2)(x+6)\)</div>
+      <div class="mcq-feedback" id="fb-q9"></div>
+    </div>
+  </div>
+
+  <!-- Q10 — correct: C — full width -->
+  <div class="mcq-card" id="card-q10" style="grid-column:1/-1;">
+    <div class="mcq-card-head"><span class="mcq-card-num">Завдання 10</span></div>
+    <div class="mcq-card-body">
+      <div class="mcq-card-q">Яке значення виразу \(\dfrac{4}{x} - \dfrac{3}{y}\) при однакових знаменниках після зведення?</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;">
+        <div class="mcq-opt" onclick="choose('q10','A')" id="q10-A"><span class="mcq-opt-letter">A</span> \(\dfrac{4-3}{xy}\)</div>
+        <div class="mcq-opt" onclick="choose('q10','B')" id="q10-B"><span class="mcq-opt-letter">B</span> \(\dfrac{4x-3y}{xy}\)</div>
+        <div class="mcq-opt" onclick="choose('q10','C')" id="q10-C"><span class="mcq-opt-letter">C</span> \(\dfrac{4y-3x}{xy}\)</div>
+        <div class="mcq-opt" onclick="choose('q10','D')" id="q10-D"><span class="mcq-opt-letter">D</span> \(\dfrac{7}{xy}\)</div>
+      </div>
+      <div class="mcq-feedback" id="fb-q10"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <span>Алгебра 8 клас · Algebraic Fractions · Factorising</span>
+  <span>\(a^2-b^2=(a+b)(a-b)\) · \(\frac{P\cdot C}{Q\cdot C}=\frac{P}{Q}\)</span>
+</footer>
+
+</div>
+
+<script>
+const ANSWERS = {
+  q6: 'D',
+  q7: 'A',
+  q8: 'C',
+  q9: 'B',
+  q10: 'C',
+};
+const EXPLANATIONS = {
+  q6: 'Множник (x+2) є спільним — скорочуємо: a(x+2)/b(x+2) = a/b.',
+  q7: 'Однакові знаменники → складаємо чисельники: x/6 + y/6 = (x+y)/6.',
+  q8: 'x²−9 = (x+3)(x−3) — різниця квадратів. Скорочуємо (x+3): залишається (x−3).',
+  q9: 'Шукаємо p×q=−12, p+q=−1. Числа: −4 та +3. Відповідь: (x−4)(x+3).',
+  q10: 'НСК(x,y)=xy. 4/x = 4y/xy, 3/y = 3x/xy. Результат: (4y−3x)/xy.',
+};
+const answered = {};
+
+function choose(q, opt) {
+  if (answered[q]) return;
+  answered[q] = opt;
+  const correct = ANSWERS[q];
+  const isCorrect = opt === correct;
+  document.querySelectorAll(`[id^="${q}-"]`).forEach(el => el.classList.add('locked'));
+  document.getElementById(`${q}-${opt}`).classList.add(isCorrect ? 'opt-correct' : 'opt-wrong');
+  if (!isCorrect) {
+    const c = document.getElementById(`${q}-${correct}`);
+    if (c) c.classList.add('opt-reveal');
+  }
+  document.getElementById(`card-${q}`).classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+  const fb = document.getElementById(`fb-${q}`);
+  fb.textContent = (isCorrect ? '✅ Правильно! ' : '❌ Неправильно. ') + EXPLANATIONS[q];
+  fb.className = 'mcq-feedback show ' + (isCorrect ? 'fb-correct' : 'fb-wrong');
+  updateScore();
+}
+
+function updateScore() {
+  const total = Object.keys(ANSWERS).length;
+  const correct = Object.entries(answered).filter(([q,o]) => o === ANSWERS[q]).length;
+  const pill = document.getElementById('scorePill');
+  pill.textContent = `${correct} / ${total}`;
+  pill.style.background = correct === total ? 'var(--green)' : correct > 0 ? 'var(--purple)' : 'var(--pink)';
+}
+
+function checkAll() {
+  Object.keys(ANSWERS).forEach(q => {
+    if (!answered[q]) {
+      answered[q] = '__forced__';
+      const correct = ANSWERS[q];
+      document.querySelectorAll(`[id^="${q}-"]`).forEach(el => el.classList.add('locked'));
+      const c = document.getElementById(`${q}-${correct}`);
+      if (c) c.classList.add('opt-reveal');
+      const fb = document.getElementById(`fb-${q}`);
+      fb.textContent = '💡 Правильна відповідь: ' + correct + '. ' + EXPLANATIONS[q];
+      fb.className = 'mcq-feedback show fb-wrong';
+      document.getElementById(`card-${q}`).classList.add('answered-wrong');
+    }
+  });
+  updateScore();
+}
+
+function resetAll() {
+  Object.keys(ANSWERS).forEach(q => {
+    delete answered[q];
+    document.querySelectorAll(`[id^="${q}-"]`).forEach(el => {
+      el.classList.remove('locked','opt-correct','opt-wrong','opt-reveal');
+    });
+    const fb = document.getElementById(`fb-${q}`);
+    fb.className = 'mcq-feedback';
+    fb.textContent = '';
+    document.getElementById(`card-${q}`).classList.remove('answered-correct','answered-wrong');
+  });
+  const pill = document.getElementById('scorePill');
+  pill.textContent = '0 / 5';
+  pill.style.background = 'var(--pink)';
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left:"\\(",right:"\\)",display:false},
+      {left:"\\[",right:"\\]",display:true}
+    ],
+    throwOnError: false
+  });
+});
+</script>
+</body>
+</html>
