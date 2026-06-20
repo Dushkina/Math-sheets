@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trigonometry — Compound & Double Angle Formulae</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+:root {
+  --bg:#f7f4f0; --card:#fff;
+  --pink:#e84fa3; --pink-light:#fde8f4; --pink-mid:#f9c9e8;
+  --purple:#7c5cbf; --purple-light:#ede8f8;
+  --green:#17a06b; --green-light:#e3f5eb;
+  --red:#d43030; --red-light:#fde8e8;
+  --orange:#d45e10; --orange-light:#fff1e6;
+  --ink:#1a1228; --muted:#7a6e82; --border:#e5dff0;
+  --mono:'JetBrains Mono',monospace;
+  --display:'DM Serif Display',serif;
+  --body:'Space Grotesk',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);padding:48px 24px;}
+.page{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:28px;}
+.katex{font-size:1.04em;}
+
+/* HEADER */
+.header{display:flex;align-items:center;justify-content:space-between;padding:32px 36px;background:var(--ink);border-radius:20px;position:relative;overflow:hidden;gap:20px;}
+.header::before{content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:var(--pink);opacity:0.15;}
+.header::after{content:'';position:absolute;right:40px;bottom:-80px;width:160px;height:160px;border-radius:50%;background:var(--purple);opacity:0.2;}
+.header-text{position:relative;z-index:1;}
+.header-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--pink);margin-bottom:6px;}
+.header-title{font-family:var(--display);font-size:38px;color:#fff;line-height:1.1;}
+.header-title span{color:var(--pink);}
+.header-right{position:relative;z-index:1;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.header-badge{background:var(--pink);color:#fff;font-family:var(--mono);font-size:11px;font-weight:600;padding:7px 14px;border-radius:50px;white-space:nowrap;}
+.header-badge2{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);font-family:var(--mono);font-size:11px;font-weight:500;padding:7px 14px;border-radius:50px;white-space:nowrap;}
+
+/* NAV */
+.chapter-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.chapter-item{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:10px;}
+.chapter-num{font-family:var(--mono);font-size:11px;color:var(--pink);background:var(--pink-light);border-radius:8px;padding:4px 8px;white-space:nowrap;font-weight:500;}
+.chapter-name{font-size:12px;font-weight:600;color:var(--ink);line-height:1.3;}
+
+/* SECTION */
+.section-label{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.section-label::before{content:'';display:block;width:24px;height:2px;background:var(--pink);border-radius:2px;}
+.divider{height:2px;background:linear-gradient(90deg,var(--pink),var(--purple));border-radius:2px;opacity:0.25;}
+
+/* FORMULA GRID */
+.formula-mega{background:var(--card);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;}
+.formula-mega-head{padding:18px 26px;border-bottom:1.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.fmh-pink{background:var(--pink-light);}
+.fmh-purple{background:var(--purple-light);}
+.fmh-orange{background:var(--orange-light);}
+.fm-badge{font-family:var(--mono);font-size:11px;font-weight:700;padding:4px 12px;border-radius:8px;color:#fff;}
+.fm-b-pink{background:var(--pink);}
+.fm-b-purple{background:var(--purple);}
+.fm-b-orange{background:var(--orange);}
+.fm-title{font-size:14px;font-weight:700;color:var(--ink);}
+.fm-sub{font-size:12px;color:var(--muted);}
+.formula-grid-body{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.fg-cell{padding:16px 22px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:8px;}
+.fg-cell:nth-child(2n){border-right:none;}
+.fg-cell:nth-last-child(-n+2){border-bottom:none;}
+.fg-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);}
+.fg-formula{font-size:16px;color:var(--ink);line-height:1.5;}
+.fg-formula.pink-f{color:var(--pink);font-weight:600;}
+.fg-formula.purple-f{color:var(--purple);font-weight:600;}
+
+/* 3-col formula grid */
+.three-fg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.small-formula-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;}
+.sfc-pink{background:var(--pink-light);border-color:var(--pink-mid);}
+.sfc-purple{background:var(--purple-light);border-color:#d0c4f0;}
+.sfc-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);}
+.sfc-formula{font-size:16px;text-align:center;}
+.sfc-pink .sfc-formula{color:var(--pink);font-weight:700;}
+.sfc-purple .sfc-formula{color:var(--purple);font-weight:700;}
+
+/* TRIG EQUATIONS */
+.trig-eq-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.teq-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;overflow:hidden;}
+.teq-head{padding:13px 18px;border-bottom:1.5px solid var(--border);display:flex;align-items:center;gap:10px;}
+.th-sin{background:var(--pink-light);}
+.th-cos{background:var(--purple-light);}
+.th-tan{background:var(--orange-light);}
+.teq-badge{font-family:var(--mono);font-size:11px;font-weight:700;padding:3px 10px;border-radius:8px;color:#fff;}
+.tb-sin{background:var(--pink);}
+.tb-cos{background:var(--purple);}
+.tb-orange{background:var(--orange);}
+.teq-title{font-size:13px;font-weight:700;color:var(--ink);}
+.teq-body{padding:16px 18px;display:flex;flex-direction:column;gap:10px;}
+.teq-main{font-size:16px;text-align:center;background:rgba(255,255,255,0.7);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
+.teq-range{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;}
+.teq-special-title{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.teq-special-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+.teq-sp{background:var(--bg);border-radius:8px;padding:6px 8px;text-align:center;font-size:12px;}
+
+/* METHOD STEPS */
+.method-header{background:linear-gradient(135deg,#1e0e35,#3a1f6e);border-radius:20px;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.method-header h2{color:#fff;font-size:16px;font-weight:700;margin-bottom:3px;}
+.method-header p{color:rgba(255,255,255,0.5);font-size:12px;}
+.method-badge{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:8px 16px;font-family:var(--mono);font-size:12px;color:var(--pink);font-weight:600;white-space:nowrap;}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.step-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;}
+.step-num{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--pink);opacity:0.35;line-height:1;}
+.step-title{font-size:13px;font-weight:700;color:var(--ink);}
+.step-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+.step-desc .mono{font-family:var(--mono);color:var(--purple);font-size:11px;}
+
+/* WORKED EXAMPLES */
+.worked-header{background:linear-gradient(135deg,#1e0e35,#3a1f6e);border-radius:20px;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.worked-header h2{color:#fff;font-size:16px;font-weight:700;margin-bottom:3px;}
+.worked-header p{color:rgba(255,255,255,0.5);font-size:12px;}
+.worked-badge{background:var(--pink);color:#fff;font-family:var(--mono);font-size:12px;font-weight:600;padding:8px 14px;border-radius:50px;white-space:nowrap;flex-shrink:0;}
+.parts-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.part-card{background:var(--card);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;}
+.part-head{padding:11px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.part-letter{font-family:var(--mono);font-size:12px;font-weight:700;color:#fff;width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pl-pink{background:var(--pink);}
+.pl-purple{background:var(--purple);}
+.pl-green{background:var(--green);}
+.pl-orange{background:var(--orange);}
+.part-q{font-size:13px;font-weight:600;color:var(--ink);}
+.part-body{padding:14px 16px;display:flex;flex-direction:column;gap:8px;}
+.step{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;}
+.step-tag{font-family:var(--mono);font-size:10px;color:var(--muted);background:var(--bg);border-radius:4px;padding:2px 6px;flex-shrink:0;margin-top:2px;white-space:nowrap;}
+.step-text{color:var(--ink);line-height:1.6;}
+.ans-row{border-radius:10px;padding:9px 13px;display:flex;align-items:center;gap:8px;margin-top:4px;}
+.ans-pink{background:var(--pink-light);border:1.5px solid var(--pink-mid);}
+.ans-purple{background:var(--purple-light);border:1.5px solid #d0c4f0;}
+.ans-green{background:var(--green-light);border:1.5px solid #a8e8ce;}
+.ans-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+
+/* SVG GRAPHS */
+.graphs-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.graph-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.graph-title{font-size:12px;font-weight:700;color:var(--ink);text-align:center;}
+.graph-sub{font-size:11px;color:var(--muted);text-align:center;font-family:var(--mono);}
+
+/* NOTE BOX */
+.note-box{border-radius:16px;padding:18px 22px;display:flex;align-items:flex-start;gap:14px;}
+.note-box.nb-pink{background:var(--pink-light);border:1.5px solid var(--pink-mid);}
+.note-box.nb-purple{background:var(--purple-light);border:1.5px solid #d0c4f0;}
+.note-box.nb-ink{background:var(--ink);}
+.note-icon{font-size:20px;flex-shrink:0;margin-top:2px;}
+.note-body h4{font-size:13px;font-weight:700;margin-bottom:5px;}
+.note-box.nb-pink .note-body h4{color:var(--pink);}
+.note-box.nb-purple .note-body h4{color:var(--purple);}
+.note-box.nb-ink .note-body h4{color:var(--pink);}
+.note-body p{font-size:13px;color:var(--muted);line-height:1.6;}
+.note-box.nb-ink .note-body p{color:rgba(255,255,255,0.75);}
+.note-body p strong{color:var(--ink);}
+.note-box.nb-ink .note-body p strong{color:#fff;}
+
+/* MCQ */
+.mcq-section-header{background:var(--ink);border-radius:16px;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.mcq-section-header h3{color:#fff;font-size:14px;font-weight:700;}
+.mcq-section-header p{color:rgba(255,255,255,0.45);font-size:11px;margin-top:2px;}
+.score-pill{background:var(--pink);color:#fff;font-family:var(--mono);font-size:12px;font-weight:700;padding:6px 14px;border-radius:50px;transition:background 0.3s;}
+.mcq-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.mcq-card{background:var(--card);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;transition:border-color 0.2s;}
+.mcq-card.answered-correct{border-color:var(--green);}
+.mcq-card.answered-wrong{border-color:var(--red);}
+.mcq-card-head{padding:11px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.mcq-card-num{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--muted);background:var(--bg);border-radius:6px;padding:3px 8px;}
+.mcq-card-q{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.4;}
+.mcq-card-body{padding:14px 16px;display:flex;flex-direction:column;gap:8px;}
+.mcq-opt{display:flex;align-items:center;gap:10px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--ink);cursor:pointer;transition:background 0.15s,border-color 0.15s,transform 0.1s;user-select:none;}
+.mcq-opt:hover:not(.locked){background:var(--purple-light);border-color:#d0c4f0;}
+.mcq-opt:active:not(.locked){transform:scale(0.98);}
+.mcq-opt-letter{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--purple);background:var(--purple-light);border-radius:6px;padding:2px 8px;flex-shrink:0;transition:background 0.15s,color 0.15s;}
+.mcq-opt.opt-correct{background:var(--green-light);border-color:var(--green);}
+.mcq-opt.opt-correct .mcq-opt-letter{background:var(--green);color:#fff;}
+.mcq-opt.opt-wrong{background:var(--red-light);border-color:var(--red);}
+.mcq-opt.opt-wrong .mcq-opt-letter{background:var(--red);color:#fff;}
+.mcq-opt.opt-reveal{background:var(--green-light);border-color:var(--green);opacity:0.75;}
+.mcq-opt.opt-reveal .mcq-opt-letter{background:var(--green);color:#fff;}
+.mcq-feedback{display:none;border-radius:10px;padding:10px 13px;font-size:12.5px;font-weight:600;line-height:1.4;margin-top:2px;}
+.mcq-feedback.show{display:block;}
+.fb-correct{background:var(--green-light);color:var(--green);}
+.fb-wrong{background:var(--red-light);color:var(--red);}
+.check-bar{display:flex;gap:12px;flex-wrap:wrap;}
+.btn{font-family:var(--body);font-size:14px;font-weight:600;padding:11px 22px;border-radius:12px;border:none;cursor:pointer;transition:opacity 0.15s,transform 0.1s;}
+.btn:hover{opacity:0.88;}
+.btn:active{transform:scale(0.97);}
+.btn-check{background:var(--purple);color:#fff;}
+.btn-reset{background:var(--card);color:var(--ink);border:1.5px solid var(--border);}
+
+/* FOOTER */
+.footer{display:flex;justify-content:space-between;align-items:center;padding:0 4px;font-size:11px;color:var(--muted);font-family:var(--mono);}
+
+@media(max-width:640px){
+  .chapter-nav{grid-template-columns:1fr 1fr;}
+  .formula-grid-body,.parts-grid,.mcq-grid,.trig-eq-grid{grid-template-columns:1fr;}
+  .three-fg,.steps-grid,.graphs-grid{grid-template-columns:1fr 1fr;}
+  .header{flex-direction:column;align-items:flex-start;}
+  .header-title{font-size:28px;}
+  .fg-cell:nth-child(2n){border-right:none;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-text">
+    <div class="header-eyebrow">A-Level · Pure Mathematics · Edexcel</div>
+    <h1 class="header-title">Trigonometry<br><span>Compound & Double Angle</span></h1>
+  </div>
+  <div class="header-right">
+    <div class="header-badge">Paper 3 · Core Pure</div>
+    <div class="header-badge2">R·sin / R·cos Form</div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="chapter-nav">
+  <div class="chapter-item"><span class="chapter-num">§1</span><span class="chapter-name">Compound Angle Formulae</span></div>
+  <div class="chapter-item"><span class="chapter-num">§2</span><span class="chapter-name">Double Angle Formulae</span></div>
+  <div class="chapter-item"><span class="chapter-num">§3</span><span class="chapter-name">R·sin/cos Form</span></div>
+  <div class="chapter-item"><span class="chapter-num">§4</span><span class="chapter-name">Trig Equations</span></div>
+</nav>
+
+<!-- §1 COMPOUND ANGLE -->
+<div class="section-label">§1 · Compound Angle Formulae (формулы сложных углов)</div>
+
+<div class="formula-mega">
+  <div class="formula-mega-head fmh-pink">
+    <div>
+      <div class="fm-title">Compound Angle Formulae</div>
+      <div class="fm-sub">Для любых углов A и B — must memorise!</div>
+    </div>
+    <span class="fm-badge fm-b-pink">§ 4.1</span>
+  </div>
+  <div class="formula-grid-body">
+    <div class="fg-cell">
+      <div class="fg-label">sin addition</div>
+      <div class="fg-formula">\(\sin(A+B) = \sin A\cos B + \cos A\sin B\)</div>
+    </div>
+    <div class="fg-cell">
+      <div class="fg-label">sin subtraction</div>
+      <div class="fg-formula">\(\sin(A-B) = \sin A\cos B - \cos A\sin B\)</div>
+    </div>
+    <div class="fg-cell">
+      <div class="fg-label">cos addition</div>
+      <div class="fg-formula">\(\cos(A+B) = \cos A\cos B - \sin A\sin B\)</div>
+    </div>
+    <div class="fg-cell">
+      <div class="fg-label">cos subtraction</div>
+      <div class="fg-formula">\(\cos(A-B) = \cos A\cos B + \sin A\sin B\)</div>
+    </div>
+    <div class="fg-cell">
+      <div class="fg-label">tan addition</div>
+      <div class="fg-formula">\(\tan(A+B) = \dfrac{\tan A + \tan B}{1 - \tan A\tan B}\)</div>
+    </div>
+    <div class="fg-cell">
+      <div class="fg-label">tan subtraction</div>
+      <div class="fg-formula">\(\tan(A-B) = \dfrac{\tan A - \tan B}{1 + \tan A\tan B}\)</div>
+    </div>
+  </div>
+</div>
+
+<div class="note-box nb-pink">
+  <div class="note-icon">💡</div>
+  <div class="note-body">
+    <h4>Memory trick — знаки!</h4>
+    <p>
+      <strong>sin</strong>: знак между слагаемыми <strong>всегда такой же</strong> как в скобках: sin(A<strong>+</strong>B) → <strong>+</strong>, sin(A<strong>−</strong>B) → <strong>−</strong><br>
+      <strong>cos</strong>: знак <strong>противоположный</strong>: cos(A<strong>+</strong>B) → <strong>−</strong>, cos(A<strong>−</strong>B) → <strong>+</strong>
+    </p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- §2 DOUBLE ANGLE -->
+<div class="section-label">§2 · Double Angle Formulae (формулы двойного угла)</div>
+
+<div class="three-fg">
+  <div class="small-formula-card sfc-pink">
+    <div class="sfc-label">sin double angle</div>
+    <div class="sfc-formula">\(\sin 2A = 2\sin A\cos A\)</div>
+  </div>
+  <div class="small-formula-card sfc-purple">
+    <div class="sfc-label">cos double angle — 3 формы!</div>
+    <div class="sfc-formula" style="font-size:14px;">
+      \(\cos 2A = \cos^2\!A - \sin^2\!A\)<br>
+      \(= 2\cos^2\!A - 1\)<br>
+      \(= 1 - 2\sin^2\!A\)
+    </div>
+  </div>
+  <div class="small-formula-card sfc-pink">
+    <div class="sfc-label">tan double angle</div>
+    <div class="sfc-formula">\(\tan 2A = \dfrac{2\tan A}{1-\tan^2\!A}\)</div>
+  </div>
+</div>
+
+<!-- USEFUL REARRANGEMENTS -->
+<div class="formula-mega">
+  <div class="formula-mega-head fmh-purple">
+    <div>
+      <div class="fm-title">Полезные преобразования с cos 2A</div>
+      <div class="fm-sub">Часто встречается на экзамене</div>
+    </div>
+    <span class="fm-badge fm-b-purple">Key rearrangements</span>
+  </div>
+  <div class="formula-grid-body">
+    <div class="fg-cell">
+      <div class="fg-label">cos² выражен через cos 2A</div>
+      <div class="fg-formula">\(\cos^2\!A = \dfrac{1+\cos 2A}{2}\)</div>
+    </div>
+    <div class="fg-cell">
+      <div class="fg-label">sin² выражен через cos 2A</div>
+      <div class="fg-formula">\(\sin^2\!A = \dfrac{1-\cos 2A}{2}\)</div>
+    </div>
+    <div class="fg-cell">
+      <div class="fg-label">Пример: \(\sqrt{1+\cos 2\theta}\)</div>
+      <div class="fg-formula">\(\sqrt{2\cos^2\!\theta} = \sqrt{2}\,|\cos\theta|\)</div>
+    </div>
+    <div class="fg-cell">
+      <div class="fg-label">Пример: \(\sin^2\!\theta\cos^2\!\theta\)</div>
+      <div class="fg-formula">\(\tfrac{1}{4}(1-\cos 2\theta)(1+\cos 2\theta) = \tfrac{1}{4}\sin^2\!2\theta\)</div>
+    </div>
+  </div>
+</div>
+
+<!-- SIMPLIFICATION EXAMPLES -->
+<div class="section-label">Применение double-angle formulae — Exercise 7</div>
+<div class="parts-grid">
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-pink">a</span><span class="part-q">\(\cos^2 3\theta - \sin^2 3\theta\)</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">identify</span><span class="step-text">Шаблон: \(\cos^2 A - \sin^2 A = \cos 2A\), здесь \(A = 3\theta\)</span></div>
+      <div class="ans-row ans-pink"><span class="ans-label">Answer</span><span>\(\cos 6\theta\)</span></div>
+    </div>
+  </div>
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-purple">b</span><span class="part-q">\(6\sin 2\theta\cos 2\theta\)</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">rewrite</span><span class="step-text">\(= 3 \cdot (2\sin 2\theta\cos 2\theta) = 3\sin 4\theta\)</span></div>
+      <div class="ans-row ans-purple"><span class="ans-label">Answer</span><span>\(3\sin 4\theta\)</span></div>
+    </div>
+  </div>
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-pink">d</span><span class="part-q">\(2 - 4\sin^2\!\left(\tfrac{\theta}{2}\right)\)</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">use</span><span class="step-text">\(\cos 2A = 1-2\sin^2\!A\), здесь \(A=\tfrac{\theta}{2}\)</span></div>
+      <div class="step"><span class="step-tag">rewrite</span><span class="step-text">\(= 2\bigl(1 - 2\sin^2\!\tfrac{\theta}{2}\bigr) = 2\cos\theta\)</span></div>
+      <div class="ans-row ans-pink"><span class="ans-label">Answer</span><span>\(2\cos\theta\)</span></div>
+    </div>
+  </div>
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-purple">e</span><span class="part-q">\(\sqrt{1+\cos 2\theta}\)</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">use</span><span class="step-text">\(1+\cos 2\theta = 2\cos^2\!\theta\)</span></div>
+      <div class="step"><span class="step-tag">simplify</span><span class="step-text">\(\sqrt{2\cos^2\!\theta} = \sqrt{2}\,|\cos\theta|\)</span></div>
+      <div class="ans-row ans-purple"><span class="ans-label">Answer</span><span>\(\sqrt{2}\cos\theta\)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- §3 R-FORM -->
+<div class="section-label">§3 · R·sin / R·cos Form (гармоническая форма)</div>
+
+<div class="formula-mega">
+  <div class="formula-mega-head fmh-orange">
+    <div>
+      <div class="fm-title">Записать в виде \(R\sin(x \pm \alpha)\) или \(R\cos(x \pm \alpha)\)</div>
+      <div class="fm-sub">где \(R > 0\) и \(0 < \alpha < \tfrac{\pi}{2}\)</div>
+    </div>
+    <span class="fm-badge fm-b-orange">R-form</span>
+  </div>
+  <div class="formula-grid-body">
+    <div class="fg-cell">
+      <div class="fg-label">R·sin form</div>
+      <div class="fg-formula">\(a\sin x + b\cos x = R\sin(x+\alpha)\)</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px;">где \(R\cos\alpha = a\), \(R\sin\alpha = b\)</div>
+    </div>
+    <div class="fg-cell">
+      <div class="fg-label">R·cos form</div>
+      <div class="fg-formula">\(a\cos x - b\sin x = R\cos(x+\alpha)\)</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px;">где \(R\cos\alpha = a\), \(R\sin\alpha = b\)</div>
+    </div>
+    <div class="fg-cell">
+      <div class="fg-label">Нахождение R</div>
+      <div class="fg-formula pink-f">\(R = \sqrt{a^2 + b^2}\)</div>
+    </div>
+    <div class="fg-cell">
+      <div class="fg-label">Нахождение α</div>
+      <div class="fg-formula pink-f">\(\tan\alpha = \dfrac{b}{a} \Rightarrow \alpha = \arctan\!\dfrac{b}{a}\)</div>
+    </div>
+  </div>
+</div>
+
+<!-- R-FORM METHOD -->
+<div class="method-header">
+  <div>
+    <h2>Алгоритм записи в R-form</h2>
+    <p>4 шага для выражения \(a\cos x \pm b\sin x\) в виде \(R\sin/\cos\)</p>
+  </div>
+  <div class="method-badge">4 steps</div>
+</div>
+<div class="steps-grid">
+  <div class="step-card">
+    <div class="step-num">1</div>
+    <div class="step-title">Раскрой формулу</div>
+    <div class="step-desc">Раскрой \(R\sin(x-\alpha)\) или \(R\cos(x+\alpha)\) по compound angle formula и сравни коэффициенты</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">2</div>
+    <div class="step-title">Найди R</div>
+    <div class="step-desc">Возведи в квадрат и сложи: <span class="mono">R² = a² + b²</span>, потім \(R = \sqrt{a^2+b^2}\)</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">3</div>
+    <div class="step-title">Найди α</div>
+    <div class="step-desc">Раздели одно уравнение на другое: <span class="mono">tan α = b/a</span>, потім \(\alpha = \arctan\!\frac{b}{a}\)</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">4</div>
+    <div class="step-title">Запиши ответ</div>
+    <div class="step-desc">Подставь R и α. Для min/max: <span class="mono">R·sin = ±R</span>, поэпоэтому min(f) и max(f) сразу известны</div>
+  </div>
+</div>
+
+<!-- WORKED: f(x) = √3 sin 2x − 3 cos 2x -->
+<div class="worked-header">
+  <div>
+    <h2>Пример 1 — R·sin form (с урока)</h2>
+    <p>Exam Question: выразить в виде \(R\sin(2x-\alpha)\)</p>
+  </div>
+  <div class="worked-badge">\(f(x)=\sqrt{3}\sin 2x - 3\cos 2x\)</div>
+</div>
+<div class="parts-grid">
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-pink">①</span><span class="part-q">Находим R</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">expand</span><span class="step-text">\(R\sin(2x-\alpha) = R\sin 2x\cos\alpha - R\cos 2x\sin\alpha\)</span></div>
+      <div class="step"><span class="step-tag">compare</span><span class="step-text">\(R\cos\alpha = \sqrt{3}\) и \(R\sin\alpha = 3\)</span></div>
+      <div class="step"><span class="step-tag">square+add</span><span class="step-text">\(R^2\cos^2\!\alpha + R^2\sin^2\!\alpha = 3 + 9 = 12\)</span></div>
+      <div class="step"><span class="step-tag">result</span><span class="step-text">\(R^2 = 12 \Rightarrow R = \sqrt{12} = 2\sqrt{3}\)</span></div>
+      <div class="ans-row ans-pink"><span class="ans-label">R =</span><span>\(2\sqrt{3}\)</span></div>
+    </div>
+  </div>
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-purple">②</span><span class="part-q">Находим α</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">divide</span><span class="step-text">\(\dfrac{R\sin\alpha}{R\cos\alpha} = \dfrac{3}{\sqrt{3}} = \sqrt{3}\)</span></div>
+      <div class="step"><span class="step-tag">solve</span><span class="step-text">\(\tan\alpha = \sqrt{3} \Rightarrow \alpha = 60° = \dfrac{\pi}{3}\)</span></div>
+      <div class="ans-row ans-purple"><span class="ans-label">Ответ</span><span>\(f(x) = 2\sqrt{3}\sin\!\left(2x-\dfrac{\pi}{3}\right)\)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- WORKED: f(x) = 7 cos x − 24 sin x -->
+<div class="worked-header">
+  <div>
+    <h2>Пример 2 — R·cos form (с урока)</h2>
+    <p>Exam Question: выразить в виде \(R\cos(x+\alpha)\)</p>
+  </div>
+  <div class="worked-badge">\(f(x) = 7\cos x - 24\sin x\)</div>
+</div>
+<div class="parts-grid">
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-pink">①</span><span class="part-q">Находим R</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">compare</span><span class="step-text">\(R\cos\alpha = 7\), \(R\sin\alpha = 24\)</span></div>
+      <div class="step"><span class="step-tag">square+add</span><span class="step-text">\(R^2 = 49 + 576 = 625\)</span></div>
+      <div class="ans-row ans-pink"><span class="ans-label">R =</span><span>\(25\)</span></div>
+    </div>
+  </div>
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-purple">②</span><span class="part-q">Находим α та min g(x)</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">α</span><span class="step-text">\(\tan\alpha = \tfrac{24}{7} \Rightarrow \alpha \approx 1.287\) рад (\(73.7°\))</span></div>
+      <div class="step"><span class="step-tag">f(x)</span><span class="step-text">\(f(x) = 25\cos(x + 1.287)\)</span></div>
+      <div class="step"><span class="step-tag">g(x)</span><span class="step-text">\(g(x) = \dfrac{5}{90-3f(2x)} = \dfrac{5}{90-75\cos(2x+1.287)}\)</span></div>
+      <div class="step"><span class="step-tag">min g</span><span class="step-text">Дробь min → знаменатель max → \(\cos = 1\): \(g_\min = \dfrac{5}{90-75} = \dfrac{5}{15} = \dfrac{1}{3}\)</span></div>
+      <div class="ans-row ans-purple"><span class="ans-label">g(min) =</span><span>\(\dfrac{1}{3}\)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- §4 TRIG EQUATIONS -->
+<div class="section-label">§4 · Решение тригонометрических уравнений</div>
+
+<div class="trig-eq-grid">
+  <!-- SIN -->
+  <div class="teq-card">
+    <div class="teq-head th-sin"><span class="teq-badge tb-sin">sin x = a</span><span class="teq-title">−1 ≤ a ≤ 1</span></div>
+    <div class="teq-body">
+      <div class="teq-main">\(x = (-1)^k \arcsin a + \pi k,\; k\in\mathbb{Z}\)</div>
+      <div class="teq-range">или в градусах: \(x = (-1)^k \arcsin a + 180°k\)</div>
+      <div class="teq-special-title">Особые случаи</div>
+      <div class="teq-special-grid">
+        <div class="teq-sp">\(\sin x=0\)<br>\(x=\pi k\)</div>
+        <div class="teq-sp">\(\sin x=1\)<br>\(x=\frac{\pi}{2}+2\pi k\)</div>
+        <div class="teq-sp">\(\sin x=-1\)<br>\(x=-\frac{\pi}{2}+2\pi k\)</div>
+      </div>
+    </div>
+  </div>
+  <!-- COS -->
+  <div class="teq-card">
+    <div class="teq-head th-cos"><span class="teq-badge tb-cos">cos x = a</span><span class="teq-title">−1 ≤ a ≤ 1</span></div>
+    <div class="teq-body">
+      <div class="teq-main">\(x = \pm\arccos a + 2\pi k,\; k\in\mathbb{Z}\)</div>
+      <div class="teq-range">или в градусах: \(x = \pm\arccos a + 360°k\)</div>
+      <div class="teq-special-title">Особые случаи</div>
+      <div class="teq-special-grid">
+        <div class="teq-sp">\(\cos x=0\)<br>\(x=\frac{\pi}{2}+\pi k\)</div>
+        <div class="teq-sp">\(\cos x=1\)<br>\(x=2\pi k\)</div>
+        <div class="teq-sp">\(\cos x=-1\)<br>\(x=\pi+2\pi k\)</div>
+      </div>
+    </div>
+  </div>
+  <!-- TAN -->
+  <div class="teq-card">
+    <div class="teq-head th-tan"><span class="teq-badge tb-orange">tan x = a</span><span class="teq-title">a ∈ ℝ</span></div>
+    <div class="teq-body">
+      <div class="teq-main">\(x = \arctan a + \pi k,\; k\in\mathbb{Z}\)</div>
+      <div class="teq-range">или в градусах: \(x = \arctan a + 180°k\)</div>
+      <div class="teq-special-title">Також: cot x = a</div>
+      <div class="teq-special-grid" style="grid-template-columns:1fr;">
+        <div class="teq-sp">\(\cot x = a \Rightarrow x = \text{arccot}\,a + \pi k\)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WORKED: 2cos2x = 7cosx -->
+<div class="worked-header">
+  <div>
+    <h2>Пример 3 — Уравнение с double angle</h2>
+    <p>Solve for \(0 \leq x < 360°\)</p>
+  </div>
+  <div class="worked-badge">\(2\cos 2x = 7\cos x\)</div>
+</div>
+<div class="parts-grid">
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-pink">①</span><span class="part-q">Подстановка double angle</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">expand</span><span class="step-text">\(2(\cos^2\!x - \sin^2\!x) = 7\cos x\)</span></div>
+      <div class="step"><span class="step-tag">sub</span><span class="step-text">\(\sin^2\!x = 1-\cos^2\!x\):</span></div>
+      <div class="step"><span class="step-tag">simplify</span><span class="step-text">\(4\cos^2\!x - 7\cos x - 2 = 0\)</span></div>
+      <div class="step"><span class="step-tag">let</span><span class="step-text">\(t = \cos x\): \(4t^2 - 7t - 2 = 0\)</span></div>
+      <div class="step"><span class="step-tag">D</span><span class="step-text">\(D = 49 + 32 = 81 \Rightarrow t = \dfrac{7\pm9}{8}\): \(t = 2\) или \(t = -\tfrac{1}{4}\)</span></div>
+      <div class="step"><span class="step-tag">reject</span><span class="step-text">\(t=2\) rejected (\(|\cos x|\leq 1\)), поэтому \(\cos x = -\tfrac{1}{4}\)</span></div>
+    </div>
+  </div>
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-purple">②</span><span class="part-q">Решение для \(0 \leq x < 360°\)</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">solve</span><span class="step-text">\(x = \pm\arccos(-0.25) + 360°k\)</span></div>
+      <div class="step"><span class="step-tag">compute</span><span class="step-text">\(\arccos(-0.25) \approx 104.5°\)</span></div>
+      <div class="step"><span class="step-tag">k=0, +</span><span class="step-text">\(x = 104.5°\) ✓</span></div>
+      <div class="step"><span class="step-tag">k=1, −</span><span class="step-text">\(x = -104.5° + 360° = 255.5°\) ✓</span></div>
+      <div class="ans-row ans-purple"><span class="ans-label">Ответ</span><span>\(x = 104.5°\) та \(x = 255.5°\)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- GRAPHS -->
+<div class="section-label">Графики тригонометрических функций</div>
+<div class="graphs-grid">
+  <div class="graph-card">
+    <div class="graph-title">y = sin x</div>
+    <svg viewBox="0 0 200 100" width="100%" height="80">
+      <line x1="0" y1="50" x2="200" y2="50" stroke="#e5dff0" stroke-width="1"/>
+      <line x1="10" y1="10" x2="10" y2="90" stroke="#e5dff0" stroke-width="1"/>
+      <path d="M10,50 C30,10 50,10 70,50 C90,90 110,90 130,50 C150,10 170,10 190,50" fill="none" stroke="#e84fa3" stroke-width="2.5" stroke-linecap="round"/>
+      <text x="185" y="48" font-family="JetBrains Mono" font-size="8" fill="#e84fa3">→</text>
+      <text x="12" y="16" font-family="JetBrains Mono" font-size="8" fill="#7a6e82">1</text>
+      <text x="12" y="88" font-family="JetBrains Mono" font-size="8" fill="#7a6e82">-1</text>
+    </svg>
+    <div class="graph-sub">Range: \(-1 \leq \sin x \leq 1\)</div>
+  </div>
+  <div class="graph-card">
+    <div class="graph-title">y = cos x</div>
+    <svg viewBox="0 0 200 100" width="100%" height="80">
+      <line x1="0" y1="50" x2="200" y2="50" stroke="#e5dff0" stroke-width="1"/>
+      <line x1="10" y1="10" x2="10" y2="90" stroke="#e5dff0" stroke-width="1"/>
+      <path d="M10,10 C30,10 50,50 70,90 C90,90 110,50 130,10 C150,10 170,50 190,90" fill="none" stroke="#7c5cbf" stroke-width="2.5" stroke-linecap="round"/>
+      <text x="12" y="16" font-family="JetBrains Mono" font-size="8" fill="#7a6e82">1</text>
+      <text x="12" y="88" font-family="JetBrains Mono" font-size="8" fill="#7a6e82">-1</text>
+    </svg>
+    <div class="graph-sub">Range: \(-1 \leq \cos x \leq 1\)</div>
+  </div>
+  <div class="graph-card">
+    <div class="graph-title">y = R·sin(x + α)</div>
+    <svg viewBox="0 0 200 100" width="100%" height="80">
+      <line x1="0" y1="50" x2="200" y2="50" stroke="#e5dff0" stroke-width="1"/>
+      <line x1="10" y1="10" x2="10" y2="90" stroke="#e5dff0" stroke-width="1"/>
+      <path d="M10,30 C25,5 45,5 65,30 C85,55 105,95 125,70 C145,45 165,10 185,35" fill="none" stroke="#d45e10" stroke-width="2.5" stroke-linecap="round"/>
+      <text x="15" y="20" font-family="Space Grotesk" font-size="8" fill="#d45e10" font-weight="700">R</text>
+      <text x="15" y="88" font-family="Space Grotesk" font-size="8" fill="#d45e10" font-weight="700">-R</text>
+      <line x1="10" y1="12" x2="200" y2="12" stroke="#d45e10" stroke-width="1" stroke-dasharray="4,3" opacity="0.4"/>
+      <line x1="10" y1="88" x2="200" y2="88" stroke="#d45e10" stroke-width="1" stroke-dasharray="4,3" opacity="0.4"/>
+    </svg>
+    <div class="graph-sub">Amplitude = R, смещение на α</div>
+  </div>
+</div>
+
+<div class="note-box nb-ink">
+  <div class="note-icon">⚡</div>
+  <div class="note-body">
+    <h4>Min/Max из R-form — ключевая идея!</h4>
+    <p>
+      Если \(f(x) = R\sin(x+\alpha)\), то <strong>max f = R</strong> и <strong>min f = −R</strong>.<br>
+      Если \(g(x) = \dfrac{k}{A + R\sin(x+\alpha)}\), то чтобы g была <strong>минимальной</strong> → знаменатель должен быть <strong>максимальным</strong> → \(\sin = 1\).<br>
+      Чтобы g была <strong>максимальной</strong> → знаменатель должен быть <strong>минимальным</strong> → \(\sin = -1\).
+    </p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- MCQ TEST -->
+<div class="section-label">Тест с проверкой — Compound & Double Angle</div>
+<div class="mcq-section-header">
+  <div>
+    <h3>Проверь себя — 5 вопросов</h3>
+    <p>Нажми на вариант → сразу увидишь результат</p>
+  </div>
+  <div class="score-pill" id="scorePill">0 / 5</div>
+</div>
+<div class="check-bar">
+  <button class="btn btn-check" onclick="checkAll()">✅ Проверить всё</button>
+  <button class="btn btn-reset" onclick="resetAll()">🔄 Сбросить</button>
+</div>
+
+<div class="mcq-grid" id="mcqGrid">
+
+  <!-- Q1 — correct: C -->
+  <div class="mcq-card" id="card-q1">
+    <div class="mcq-card-head"><span class="mcq-card-num">Запитання 1</span></div>
+    <div class="mcq-card-body">
+      <div class="mcq-card-q">Чему равно \(\sin(A+B)\)?</div>
+      <div class="mcq-opt" onclick="choose('q1','A')" id="q1-A"><span class="mcq-opt-letter">A</span> \(\sin A\cos B - \cos A\sin B\)</div>
+      <div class="mcq-opt" onclick="choose('q1','B')" id="q1-B"><span class="mcq-opt-letter">B</span> \(\cos A\cos B + \sin A\sin B\)</div>
+      <div class="mcq-opt" onclick="choose('q1','C')" id="q1-C"><span class="mcq-opt-letter">C</span> \(\sin A\cos B + \cos A\sin B\)</div>
+      <div class="mcq-opt" onclick="choose('q1','D')" id="q1-D"><span class="mcq-opt-letter">D</span> \(\cos A\cos B - \sin A\sin B\)</div>
+      <div class="mcq-feedback" id="fb-q1"></div>
+    </div>
+  </div>
+
+  <!-- Q2 — correct: A -->
+  <div class="mcq-card" id="card-q2">
+    <div class="mcq-card-head"><span class="mcq-card-num">Запитання 2</span></div>
+    <div class="mcq-card-body">
+      <div class="mcq-card-q">Упростите: \(\cos^2\!\theta - \sin^2\!\theta\)</div>
+      <div class="mcq-opt" onclick="choose('q2','A')" id="q2-A"><span class="mcq-opt-letter">A</span> \(\cos 2\theta\)</div>
+      <div class="mcq-opt" onclick="choose('q2','B')" id="q2-B"><span class="mcq-opt-letter">B</span> \(2\cos^2\!\theta\)</div>
+      <div class="mcq-opt" onclick="choose('q2','C')" id="q2-C"><span class="mcq-opt-letter">C</span> \(\sin 2\theta\)</div>
+      <div class="mcq-opt" onclick="choose('q2','D')" id="q2-D"><span class="mcq-opt-letter">D</span> \(1 - 2\sin^2\!\theta\)</div>
+      <div class="mcq-feedback" id="fb-q2"></div>
+    </div>
+  </div>
+
+  <!-- Q3 — correct: D -->
+  <div class="mcq-card" id="card-q3">
+    <div class="mcq-card-head"><span class="mcq-card-num">Запитання 3</span></div>
+    <div class="mcq-card-body">
+      <div class="mcq-card-q">Если \(f(x) = 3\cos x - 4\sin x = R\cos(x+\alpha)\), чему равно R?</div>
+      <div class="mcq-opt" onclick="choose('q3','A')" id="q3-A"><span class="mcq-opt-letter">A</span> \(R = 3\)</div>
+      <div class="mcq-opt" onclick="choose('q3','B')" id="q3-B"><span class="mcq-opt-letter">B</span> \(R = 7\)</div>
+      <div class="mcq-opt" onclick="choose('q3','C')" id="q3-C"><span class="mcq-opt-letter">C</span> \(R = \sqrt{7}\)</div>
+      <div class="mcq-opt" onclick="choose('q3','D')" id="q3-D"><span class="mcq-opt-letter">D</span> \(R = 5\)</div>
+      <div class="mcq-feedback" id="fb-q3"></div>
+    </div>
+  </div>
+
+  <!-- Q4 — correct: B -->
+  <div class="mcq-card" id="card-q4">
+    <div class="mcq-card-head"><span class="mcq-card-num">Запитання 4</span></div>
+    <div class="mcq-card-body">
+      <div class="mcq-card-q">Упростите \(4\sin\theta\cos\theta\):</div>
+      <div class="mcq-opt" onclick="choose('q4','A')" id="q4-A"><span class="mcq-opt-letter">A</span> \(\cos 2\theta\)</div>
+      <div class="mcq-opt" onclick="choose('q4','B')" id="q4-B"><span class="mcq-opt-letter">B</span> \(2\sin 2\theta\)</div>
+      <div class="mcq-opt" onclick="choose('q4','C')" id="q4-C"><span class="mcq-opt-letter">C</span> \(\sin 4\theta\)</div>
+      <div class="mcq-opt" onclick="choose('q4','D')" id="q4-D"><span class="mcq-opt-letter">D</span> \(4\sin 2\theta\)</div>
+      <div class="mcq-feedback" id="fb-q4"></div>
+    </div>
+  </div>
+
+  <!-- Q5 — correct: C — full width -->
+  <div class="mcq-card" id="card-q5" style="grid-column:1/-1;">
+    <div class="mcq-card-head"><span class="mcq-card-num">Запитання 5</span></div>
+    <div class="mcq-card-body">
+      <div class="mcq-card-q">Если \(g(x) = \dfrac{5}{90 - 75\cos(2x+1.287)}\), чому дорівнює мінімальне значення \(g(x)\)?</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;">
+        <div class="mcq-opt" onclick="choose('q5','A')" id="q5-A"><span class="mcq-opt-letter">A</span> \(\dfrac{1}{15}\)</div>
+        <div class="mcq-opt" onclick="choose('q5','B')" id="q5-B"><span class="mcq-opt-letter">B</span> \(\dfrac{5}{165}\)</div>
+        <div class="mcq-opt" onclick="choose('q5','C')" id="q5-C"><span class="mcq-opt-letter">C</span> \(\dfrac{1}{3}\)</div>
+        <div class="mcq-opt" onclick="choose('q5','D')" id="q5-D"><span class="mcq-opt-letter">D</span> \(\dfrac{5}{90}\)</div>
+      </div>
+      <div class="mcq-feedback" id="fb-q5"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <span>A-Level Pure · Trigonometry · Compound & Double Angle · R-form</span>
+  <span>\(R=\sqrt{a^2+b^2}\) · \(\sin 2A=2\sin A\cos A\) · \(\cos 2A=\cos^2\!A-\sin^2\!A\)</span>
+</footer>
+
+</div>
+
+<script>
+const ANSWERS = { q1:'C', q2:'A', q3:'D', q4:'B', q5:'C' };
+const EXPLANATIONS = {
+  q1: 'sin(A+B) = sinA cosB + cosA sinB — знак "+" сохраняется.',
+  q2: 'cos²θ − sin²θ = cos 2θ — это одна из форм double angle formula.',
+  q3: 'R = √(3² + 4²) = √(9+16) = √25 = 5.',
+  q4: '4sinθ cosθ = 2·(2sinθ cosθ) = 2 sin 2θ.',
+  q5: 'Для min g → max знаменателя → cos = 1: g(min) = 5/(90−75) = 5/15 = 1/3.',
+};
+const answered = {};
+
+function choose(q, opt) {
+  if (answered[q]) return;
+  answered[q] = opt;
+  const correct = ANSWERS[q];
+  const isCorrect = opt === correct;
+  document.querySelectorAll(`[id^="${q}-"]`).forEach(el => el.classList.add('locked'));
+  document.getElementById(`${q}-${opt}`).classList.add(isCorrect ? 'opt-correct' : 'opt-wrong');
+  if (!isCorrect) { const c = document.getElementById(`${q}-${correct}`); if(c) c.classList.add('opt-reveal'); }
+  document.getElementById(`card-${q}`).classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+  const fb = document.getElementById(`fb-${q}`);
+  fb.textContent = (isCorrect ? '✅ Верно! ' : '❌ Неверно. ') + EXPLANATIONS[q];
+  fb.className = 'mcq-feedback show ' + (isCorrect ? 'fb-correct' : 'fb-wrong');
+  updateScore();
+}
+
+function updateScore() {
+  const total = Object.keys(ANSWERS).length;
+  const correct = Object.entries(answered).filter(([q,o]) => o === ANSWERS[q]).length;
+  const pill = document.getElementById('scorePill');
+  pill.textContent = `${correct} / ${total}`;
+  pill.style.background = correct === total ? '#17a06b' : correct > 0 ? '#7c5cbf' : '#e84fa3';
+}
+
+function checkAll() {
+  Object.keys(ANSWERS).forEach(q => {
+    if (!answered[q]) {
+      answered[q] = '__forced__';
+      const correct = ANSWERS[q];
+      document.querySelectorAll(`[id^="${q}-"]`).forEach(el => el.classList.add('locked'));
+      const c = document.getElementById(`${q}-${correct}`); if(c) c.classList.add('opt-reveal');
+      const fb = document.getElementById(`fb-${q}`);
+      fb.textContent = '💡 Правильный ответ: ' + correct + '. ' + EXPLANATIONS[q];
+      fb.className = 'mcq-feedback show fb-wrong';
+      document.getElementById(`card-${q}`).classList.add('answered-wrong');
+    }
+  });
+  updateScore();
+}
+
+function resetAll() {
+  Object.keys(ANSWERS).forEach(q => {
+    delete answered[q];
+    document.querySelectorAll(`[id^="${q}-"]`).forEach(el => el.classList.remove('locked','opt-correct','opt-wrong','opt-reveal'));
+    document.getElementById(`fb-${q}`).className = 'mcq-feedback';
+    document.getElementById(`fb-${q}`).textContent = '';
+    document.getElementById(`card-${q}`).classList.remove('answered-correct','answered-wrong');
+  });
+  const pill = document.getElementById('scorePill');
+  pill.textContent = '0 / 5';
+  pill.style.background = '#e84fa3';
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [{left:"\\(",right:"\\)",display:false},{left:"\\[",right:"\\]",display:true}],
+    throwOnError: false
+  });
+});
+</script>
+</body>
+</html>
