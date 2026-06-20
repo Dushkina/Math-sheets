@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Інтеграли та метод заміни змінної</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+:root {
+  --bg:#f7f4f0; --card:#fff;
+  --pink:#e84fa3; --pink-light:#fde8f4; --pink-mid:#f9c9e8;
+  --purple:#7c5cbf; --purple-light:#ede8f8;
+  --green:#17a06b; --green-light:#e3f5eb;
+  --red:#d43030; --red-light:#fde8e8;
+  --orange:#d45e10; --orange-light:#fff1e6;
+  --ink:#1a1228; --muted:#7a6e82; --border:#e5dff0;
+  --mono:'JetBrains Mono',monospace;
+  --display:'DM Serif Display',serif;
+  --body:'Space Grotesk',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);padding:48px 24px;}
+.page{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:28px;}
+.katex{font-size:1.04em;}
+
+.header{display:flex;align-items:center;justify-content:space-between;padding:32px 36px;background:var(--ink);border-radius:20px;position:relative;overflow:hidden;gap:20px;}
+.header::before{content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:var(--pink);opacity:0.15;}
+.header::after{content:'';position:absolute;right:40px;bottom:-80px;width:160px;height:160px;border-radius:50%;background:var(--purple);opacity:0.2;}
+.header-text{position:relative;z-index:1;}
+.header-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--pink);margin-bottom:6px;}
+.header-title{font-family:var(--display);font-size:38px;color:#fff;line-height:1.1;}
+.header-title span{color:var(--pink);}
+.header-badge{position:relative;z-index:1;background:var(--pink);color:#fff;font-family:var(--mono);font-size:12px;font-weight:500;padding:8px 16px;border-radius:50px;white-space:nowrap;}
+
+.section-label{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.section-label::before{content:'';display:block;width:24px;height:2px;background:var(--pink);border-radius:2px;}
+.divider{height:2px;background:linear-gradient(90deg,var(--pink),var(--purple));border-radius:2px;opacity:0.25;}
+
+.chapter-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.chapter-item{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:10px;}
+.chapter-num{font-family:var(--mono);font-size:11px;color:var(--pink);background:var(--pink-light);border-radius:8px;padding:4px 8px;white-space:nowrap;font-weight:500;}
+.chapter-name{font-size:12px;font-weight:600;color:var(--ink);line-height:1.3;}
+
+/* TABLE OF INTEGRALS */
+.table-wrap{background:var(--card);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;}
+.table-head-dark{background:var(--ink);padding:16px 22px;}
+.table-head-dark h3{color:#fff;font-size:14px;font-weight:700;}
+.table-head-dark p{color:rgba(255,255,255,0.45);font-size:11px;margin-top:2px;}
+.int-table{width:100%;border-collapse:collapse;}
+.int-table th{background:var(--purple-light);padding:10px 16px;text-align:left;font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--purple);border-bottom:1.5px solid var(--border);border-right:1px solid var(--border);}
+.int-table th:last-child{border-right:none;}
+.int-table td{padding:11px 16px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);font-size:14px;color:var(--ink);vertical-align:middle;}
+.int-table td:last-child{border-right:none;}
+.int-table tr:last-child td{border-bottom:none;}
+.int-table tr:hover td{background:#faf8ff;}
+.int-table td.hl{background:var(--pink-light);}
+.int-num{font-family:var(--mono);font-size:11px;color:var(--muted);width:30px;}
+
+/* DEF CARD */
+.def-card{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:26px 30px;display:flex;gap:24px;align-items:flex-start;}
+.def-text{flex:1;}
+.def-text h3{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:10px;}
+.def-text p{font-size:13.5px;color:var(--muted);line-height:1.65;}
+.def-text p strong{color:var(--ink);}
+.def-formula-box{background:var(--pink-light);border:2px solid var(--pink-mid);border-radius:14px;padding:18px 22px;font-size:18px;text-align:center;flex-shrink:0;}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+/* METHOD STEPS */
+.method-header{background:linear-gradient(135deg,#1e0e35,#3a1f6e);border-radius:20px;padding:24px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.method-header h2{color:#fff;font-size:17px;font-weight:700;margin-bottom:4px;}
+.method-header p{color:rgba(255,255,255,0.5);font-size:12px;}
+.method-badge{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:8px 16px;font-family:var(--mono);font-size:12px;color:var(--pink);font-weight:600;white-space:nowrap;}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.step-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;}
+.step-num{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--pink);opacity:0.35;line-height:1;}
+.step-title{font-size:13px;font-weight:700;color:var(--ink);}
+.step-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+.step-desc .mono{font-family:var(--mono);color:var(--purple);font-size:11px;font-weight:600;}
+
+/* RECOGNIZE CARDS */
+.recog-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.recog-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;overflow:hidden;}
+.recog-head{padding:13px 18px;display:flex;align-items:center;gap:10px;border-bottom:1.5px solid var(--border);}
+.rh-pink{background:var(--pink-light);}
+.rh-purple{background:var(--purple-light);}
+.recog-badge{font-family:var(--mono);font-size:11px;font-weight:700;padding:4px 12px;border-radius:8px;color:#fff;}
+.rb-pink{background:var(--pink);}
+.rb-purple{background:var(--purple);}
+.recog-title{font-size:13px;font-weight:700;color:var(--ink);}
+.recog-body{padding:16px 18px;display:flex;flex-direction:column;gap:10px;}
+.recog-formula{font-size:15px;text-align:center;background:rgba(255,255,255,0.7);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
+.recog-note{font-size:12.5px;color:var(--muted);line-height:1.6;}
+.recog-note strong{color:var(--ink);}
+
+/* NOTE BOX */
+.note-box{border-radius:16px;padding:18px 24px;display:flex;align-items:flex-start;gap:14px;}
+.note-box.nb-pink{background:var(--pink-light);border:1.5px solid var(--pink-mid);}
+.note-box.nb-ink{background:var(--ink);}
+.note-icon{font-size:20px;flex-shrink:0;margin-top:2px;}
+.note-body h4{font-size:13px;font-weight:700;margin-bottom:5px;}
+.note-box.nb-pink .note-body h4{color:var(--pink);}
+.note-box.nb-ink .note-body h4{color:var(--pink);}
+.note-body p{font-size:13px;color:var(--muted);line-height:1.6;}
+.note-box.nb-ink .note-body p{color:rgba(255,255,255,0.75);}
+.note-body p strong{color:var(--ink);}
+.note-box.nb-ink .note-body p strong{color:#fff;}
+
+/* WORKED EXAMPLES */
+.worked-header{background:linear-gradient(135deg,#1e0e35,#3a1f6e);border-radius:20px;padding:24px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.worked-header h2{color:#fff;font-size:17px;font-weight:700;margin-bottom:4px;}
+.worked-header p{color:rgba(255,255,255,0.5);font-size:12px;}
+.worked-badge{background:var(--pink);color:#fff;font-family:var(--mono);font-size:12px;font-weight:600;padding:8px 14px;border-radius:50px;white-space:nowrap;flex-shrink:0;}
+.parts-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.part-card{background:var(--card);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;}
+.part-head{padding:11px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.part-letter{font-family:var(--mono);font-size:12px;font-weight:700;color:#fff;width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pl-pink{background:var(--pink);}
+.pl-purple{background:var(--purple);}
+.part-q{font-size:13px;font-weight:600;color:var(--ink);}
+.part-body{padding:14px 16px;display:flex;flex-direction:column;gap:8px;}
+.step{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;}
+.step-tag{font-family:var(--mono);font-size:10px;color:var(--muted);background:var(--bg);border-radius:4px;padding:2px 6px;flex-shrink:0;margin-top:2px;white-space:nowrap;}
+.step-text{color:var(--ink);line-height:1.6;}
+.ans-row{border-radius:10px;padding:9px 13px;display:flex;align-items:center;gap:8px;margin-top:4px;}
+.ans-pink{background:var(--pink-light);border:1.5px solid var(--pink-mid);}
+.ans-purple{background:var(--purple-light);border:1.5px solid #d0c4f0;}
+.ans-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+
+/* EXERCISES */
+.hw-header{background:linear-gradient(135deg,#1a0a2e,#3a1060);border-radius:20px;padding:24px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.hw-header h2{color:#fff;font-size:17px;font-weight:700;margin-bottom:4px;}
+.hw-header p{color:rgba(255,255,255,0.5);font-size:12px;}
+.hw-badge{background:var(--purple);color:#fff;font-family:var(--mono);font-size:12px;font-weight:600;padding:8px 16px;border-radius:50px;white-space:nowrap;}
+.block-title{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.block-title::before{content:'';display:block;width:14px;height:2px;background:var(--purple);border-radius:2px;}
+.ex-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.ex-item{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:8px;position:relative;}
+.diff-tag{position:absolute;top:10px;right:10px;font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px;}
+.dt-easy{background:var(--green-light);color:var(--green);}
+.dt-med{background:var(--orange-light);color:var(--orange);}
+.dt-hard{background:var(--purple-light);color:var(--purple);}
+.ex-num{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.ex-expr{font-size:16px;color:var(--ink);margin:2px 0 6px;line-height:1.5;min-height:40px;display:flex;align-items:center;}
+.ex-line{border:none;border-top:1.5px dashed var(--border);}
+.ex-ans-space{font-family:var(--mono);font-size:11px;color:var(--muted);min-height:24px;}
+
+.footer{display:flex;justify-content:space-between;align-items:center;padding:0 4px;font-size:11px;color:var(--muted);font-family:var(--mono);}
+
+@media(max-width:640px){
+  .chapter-nav{grid-template-columns:1fr 1fr;}
+  .two-col,.parts-grid,.recog-grid{grid-template-columns:1fr;}
+  .steps-grid{grid-template-columns:1fr 1fr;}
+  .ex-grid{grid-template-columns:1fr 1fr;}
+  .header{flex-direction:column;align-items:flex-start;}
+  .header-title{font-size:30px;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="header">
+  <div class="header-text">
+    <div class="header-eyebrow">Математичний аналіз · Інтегрування</div>
+    <h1 class="header-title">Інтеграли<br><span>та метод заміни</span></h1>
+  </div>
+  <div class="header-badge">Substitution Method</div>
+</header>
+
+<nav class="chapter-nav">
+  <div class="chapter-item"><span class="chapter-num">§1</span><span class="chapter-name">Таблиця інтегралів</span></div>
+  <div class="chapter-item"><span class="chapter-num">§2</span><span class="chapter-name">Метод заміни — теорія</span></div>
+  <div class="chapter-item"><span class="chapter-num">§3</span><span class="chapter-name">Як розпізнати заміну</span></div>
+  <div class="chapter-item"><span class="chapter-num">§4</span><span class="chapter-name">Розібрані приклади</span></div>
+</nav>
+
+<!-- §1 TABLE OF INTEGRALS -->
+<div class="section-label">§1 · Таблиця невизначених інтегралів</div>
+<div class="table-wrap">
+  <div class="table-head-dark">
+    <h3>Базові формули — потрібно знати напам'ять</h3>
+    <p>Звідси будуються всі складніші інтеграли через заміну</p>
+  </div>
+  <table class="int-table">
+    <thead><tr><th class="int-num">№</th><th>Формула</th></tr></thead>
+    <tbody>
+      <tr><td class="int-num">1</td><td>\(\displaystyle\int 0\,dx = C\)</td></tr>
+      <tr><td class="int-num">2</td><td>\(\displaystyle\int dx = x+C\)</td></tr>
+      <tr><td class="int-num">3</td><td class="hl">\(\displaystyle\int x^N dx = \dfrac{x^{N+1}}{N+1}+C,\;\; N\neq-1\)</td></tr>
+      <tr><td class="int-num">4</td><td>\(\displaystyle\int \dfrac{1}{\sqrt{x}}dx = 2\sqrt{x}+C\)</td></tr>
+      <tr><td class="int-num">5</td><td>\(\displaystyle\int a^x dx = \dfrac{a^x}{\ln a}+C\)</td></tr>
+      <tr><td class="int-num">6</td><td class="hl">\(\displaystyle\int e^x dx = e^x+C\)</td></tr>
+      <tr><td class="int-num">7</td><td class="hl">\(\displaystyle\int \dfrac{dx}{x} = \ln|x|+C\)</td></tr>
+      <tr><td class="int-num">8</td><td class="hl">\(\displaystyle\int \cos x\,dx = \sin x+C\)</td></tr>
+      <tr><td class="int-num">9</td><td class="hl">\(\displaystyle\int \sin x\,dx = -\cos x+C\)</td></tr>
+      <tr><td class="int-num">10</td><td>\(\displaystyle\int \dfrac{dx}{\cos^2 x} = \tan x+C\)</td></tr>
+      <tr><td class="int-num">11</td><td>\(\displaystyle\int \dfrac{dx}{\sin^2 x} = -\cot x+C\)</td></tr>
+      <tr><td class="int-num">12</td><td>\(\displaystyle\int \dfrac{dx}{x^2-a^2} = \dfrac{1}{2a}\ln\left|\dfrac{x-a}{x+a}\right|+C\)</td></tr>
+      <tr><td class="int-num">13</td><td class="hl">\(\displaystyle\int \dfrac{dx}{\sqrt{x^2\pm a^2}} = \ln\left|x+\sqrt{x^2\pm a^2}\right|+C\)</td></tr>
+      <tr><td class="int-num">14</td><td class="hl">\(\displaystyle\int \dfrac{dx}{\sqrt{a^2-x^2}} = \arcsin\dfrac{x}{a}+C\)</td></tr>
+      <tr><td class="int-num">15</td><td class="hl">\(\displaystyle\int \dfrac{dx}{a^2+x^2} = \dfrac{1}{a}\arctan\dfrac{x}{a}+C\)</td></tr>
+      <tr><td class="int-num">16</td><td>\(\displaystyle\int \tan x\,dx = -\ln|\cos x|+C\)</td></tr>
+      <tr><td class="int-num">17</td><td>\(\displaystyle\int \cot x\,dx = \ln|\sin x|+C\)</td></tr>
+      <tr><td class="int-num">18</td><td>\(\displaystyle\int \dfrac{dx}{\sin x} = \ln\left|\tan\dfrac{x}{2}\right|+C\)</td></tr>
+      <tr><td class="int-num">19</td><td>\(\displaystyle\int \dfrac{dx}{\cos x} = \ln\left|\tan\!\left(\dfrac{x}{2}+\dfrac{\pi}{4}\right)\right|+C\)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="divider"></div>
+
+<!-- §2 THEORY -->
+<div class="section-label">§2 · Метод заміни змінної — теорія</div>
+
+<div class="def-card">
+  <div class="def-text">
+    <h3>Основна ідея методу заміни</h3>
+    <p>
+      Якщо інтеграл не є табличним напряму, але всередині є <strong>складна функція</strong> \(\varphi(x)\) та її <strong>похідна</strong>
+      (з точністю до константи) теж присутня в підінтегральному виразі — можна ввести нову змінну \(t=\varphi(x)\).
+      Це зводить складний інтеграл до табличного відносно \(t\).
+    </p>
+  </div>
+  <div class="def-formula-box">\(\displaystyle\int f(\varphi(x))\,d\varphi(x) = F(\varphi(x))+C\)</div>
+</div>
+
+<div class="def-card">
+  <div class="def-text" style="flex:1">
+    <h3>Лінійна заміна — окремий важливий випадок</h3>
+    <p>
+      Коли всередині функції стоїть <strong>лінійний вираз</strong> \(ax+b\), заміна спрощується: достатньо застосувати
+      готову функцію \(F\), поділивши результат на коефіцієнт \(a\) при \(x\).
+    </p>
+  </div>
+  <div class="def-formula-box" style="background:var(--purple-light);border-color:#d0c4f0;">\(\displaystyle\int f(ax+b)\,dx = \dfrac{1}{a}F(ax+b)+C\)</div>
+</div>
+
+<!-- ALGORITHM -->
+<div class="method-header">
+  <div>
+    <h2>Алгоритм заміни змінної — 5 кроків</h2>
+    <p>Універсальний порядок дій для будь-якого інтеграла із заміною</p>
+  </div>
+  <div class="method-badge">5 кроків</div>
+</div>
+<div class="steps-grid">
+  <div class="step-card">
+    <div class="step-num">1</div>
+    <div class="step-title">Знайди складну частину</div>
+    <div class="step-desc">Подивись на функцію всередині (sin, cos, e, корінь, степінь) — це кандидат на \(t\)</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">2</div>
+    <div class="step-title">Зроби заміну</div>
+    <div class="step-desc">Запиши <span class="mono">t = φ(x)</span>, потім знайди <span class="mono">dt = φ'(x)dx</span></div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">3</div>
+    <div class="step-title">Вирази dx через dt</div>
+    <div class="step-desc">Якщо потрібно, домнож/поділи, щоб увесь вираз замінився на \(t\) і \(dt\)</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">4</div>
+    <div class="step-title">Інтегруй за таблицею</div>
+    <div class="step-desc">Тепер інтеграл відносно \(t\) — табличний. Знайди первісну \(F(t)+C\)</div>
+  </div>
+</div>
+
+<div class="note-box nb-pink">
+  <div class="note-icon">⚠️</div>
+  <div class="note-body">
+    <h4>Не забудь повернутись!</h4>
+    <p>
+      Останній — <strong>п'ятий</strong> крок, про який часто забувають: підстав назад \(t = \varphi(x)\) у відповідь!
+      Результат завжди повинен бути записаний через <strong>початкову змінну x</strong>, а не через \(t\).
+    </p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- §3 HOW TO RECOGNIZE -->
+<div class="section-label">§3 · Як розпізнати, що саме заміняти</div>
+
+<div class="recog-grid">
+  <div class="recog-card">
+    <div class="recog-head rh-pink">
+      <span class="recog-badge rb-pink">Ознака 1</span>
+      <span class="recog-title">Похідна "складної частини" поруч</span>
+    </div>
+    <div class="recog-body">
+      <div class="recog-formula">\(\int 8x^7\sin(3-x^8)\,dx\)</div>
+      <div class="recog-note">
+        Бачимо \((3-x^8)\) всередині sin. Похідна \((3-x^8)' = -8x^7\) — і ось вона, \(8x^7\), стоїть поруч!
+        Це <strong>головна ознака</strong>: заміняй ту частину, чия похідна (з точністю до числа) присутня в інтегралі.
+      </div>
+    </div>
+  </div>
+  <div class="recog-card">
+    <div class="recog-head rh-purple">
+      <span class="recog-badge rb-purple">Ознака 2</span>
+      <span class="recog-title">Вираз під коренем / у знаменнику</span>
+    </div>
+    <div class="recog-body">
+      <div class="recog-formula">\(\int \dfrac{x}{\sqrt{1+x^2}}\,dx\)</div>
+      <div class="recog-note">
+        Складна частина \(1+x^2\) стоїть під коренем. Її похідна \(2x\) майже збігається з чисельником \(x\)
+        (відрізняється лише константою) — сигнал до заміни <strong>t = 1+x²</strong>.
+      </div>
+    </div>
+  </div>
+  <div class="recog-card">
+    <div class="recog-head rh-pink">
+      <span class="recog-badge rb-pink">Ознака 3</span>
+      <span class="recog-title">Степінь функції — внутрішня частина</span>
+    </div>
+    <div class="recog-body">
+      <div class="recog-formula">\(\int \sin^3\!x\cos x\,dx\)</div>
+      <div class="recog-note">
+        Бачимо \(\sin x\) у степені та поруч \(\cos x\) — похідну sin x! Заміняй <strong>t = sin x</strong>,
+        тоді \(dt=\cos x\,dx\), і інтеграл стає табличним \(\int t^3\,dt\).
+      </div>
+    </div>
+  </div>
+  <div class="recog-card">
+    <div class="recog-head rh-purple">
+      <span class="recog-badge rb-purple">Ознака 4</span>
+      <span class="recog-title">Лінійний вираз ax+b всередині</span>
+    </div>
+    <div class="recog-body">
+      <div class="recog-formula">\(\int (x+1)^{15}\,dx,\quad \int\cos(2x-3)\,dx\)</div>
+      <div class="recog-note">
+        Якщо всередині лише <strong>лінійна функція</strong> \(ax+b\) — це найпростіший випадок.
+        Заміна \(t=ax+b\) завжди працює, \(dt=a\,dx\), результат ділиться на коефіцієнт \(a\).
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="note-box nb-ink">
+  <div class="note-icon">🔑</div>
+  <div class="note-body">
+    <h4>Головне правило розпізнавання</h4>
+    <p>
+      Завжди шукай пару: <strong>"складна функція" + "її похідна (можливо з коефіцієнтом) десь поруч"</strong>.
+      Якщо бачиш \(\varphi(x)\) всередині sin, cos, e, кореня, степеня — перевір, чи є в решті виразу \(\varphi'(x)\,dx\)
+      (точно або з точністю до сталого множника). Якщо є — сміливо роби заміну \(t=\varphi(x)\).
+    </p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- §4 WORKED EXAMPLES -->
+<div class="section-label">§4 · Розібрані приклади</div>
+
+<!-- Example 1 -->
+<div class="worked-header">
+  <div>
+    <h2>Приклад 1 — заміна складної частини</h2>
+    <p>Класична нелінійна заміна</p>
+  </div>
+  <div class="worked-badge">\(\int 8x^7\sin(3-x^8)\,dx\)</div>
+</div>
+<div class="parts-grid">
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-pink">1</span><span class="part-q">Замінюємо</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">заміна</span><span class="step-text">\(3-x^8=t\)</span></div>
+      <div class="step"><span class="step-tag">похідна</span><span class="step-text">\(-8x^7dx=dt \Rightarrow 8x^7dx=-dt\)</span></div>
+      <div class="step"><span class="step-tag">підставляємо</span><span class="step-text">\(\int 8x^7\sin(3-x^8)dx = -\int \sin t\,dt\)</span></div>
+    </div>
+  </div>
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-purple">2</span><span class="part-q">Інтегруємо та повертаємось</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">табличний</span><span class="step-text">\(-\int\sin t\,dt = \cos t + C\)</span></div>
+      <div class="step"><span class="step-tag">повертаємось</span><span class="step-text">\(t = 3-x^8\)</span></div>
+      <div class="ans-row ans-purple"><span class="ans-label">Відповідь</span><span>\(\cos(3-x^8)+C\)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Example 2 -->
+<div class="worked-header">
+  <div>
+    <h2>Приклад 2 — заміна під коренем</h2>
+    <p>Інтеграл зводиться до степеневої функції</p>
+  </div>
+  <div class="worked-badge">\(\int \dfrac{x}{\sqrt{1+x^2}}\,dx\)</div>
+</div>
+<div class="parts-grid">
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-pink">1</span><span class="part-q">Замінюємо</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">заміна</span><span class="step-text">\(1+x^2=t\)</span></div>
+      <div class="step"><span class="step-tag">похідна</span><span class="step-text">\(2x\,dx=dt \Rightarrow x\,dx=\tfrac{1}{2}dt\)</span></div>
+      <div class="step"><span class="step-tag">підставляємо</span><span class="step-text">\(\dfrac{1}{2}\displaystyle\int \dfrac{dt}{\sqrt{t}} = \int t^{-\frac{1}{2}}dt\)</span></div>
+    </div>
+  </div>
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-purple">2</span><span class="part-q">Інтегруємо та повертаємось</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">табличний</span><span class="step-text">\(\dfrac{t^{1/2}}{1/2}+C = 2\sqrt{t}+C\)</span></div>
+      <div class="step"><span class="step-tag">повертаємось</span><span class="step-text">\(t=1+x^2\)</span></div>
+      <div class="ans-row ans-purple"><span class="ans-label">Відповідь</span><span>\(2\sqrt{1+x^2}+C\)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Example 3: Linear substitution -->
+<div class="worked-header">
+  <div>
+    <h2>Приклад 3 — лінійна заміна</h2>
+    <p>Найпростіший випадок: ax+b всередині</p>
+  </div>
+  <div class="worked-badge">\(\int \cos(3x+\pi)\,dx\)</div>
+</div>
+<div class="parts-grid">
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-pink">1</span><span class="part-q">Розпізнаємо лінійний вираз</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">форма</span><span class="step-text">Маємо \(f(ax+b)\), де \(a=3,\,b=\pi\)</span></div>
+      <div class="step"><span class="step-tag">формула</span><span class="step-text">\(\displaystyle\int f(ax+b)dx = \dfrac{1}{a}F(ax+b)+C\)</span></div>
+      <div class="step"><span class="step-tag">F(t)</span><span class="step-text">Для \(f(t)=\cos t\): \(F(t)=\sin t\)</span></div>
+    </div>
+  </div>
+  <div class="part-card">
+    <div class="part-head"><span class="part-letter pl-purple">2</span><span class="part-q">Застосовуємо формулу</span></div>
+    <div class="part-body">
+      <div class="step"><span class="step-tag">підставляємо</span><span class="step-text">\(\dfrac{1}{3}\sin(3x+\pi)+C\)</span></div>
+      <div class="step"><span class="step-tag">перевірка</span><span class="step-text">Похідна: \(\frac{1}{3}\cdot3\cos(3x+\pi) = \cos(3x+\pi)\) ✓</span></div>
+      <div class="ans-row ans-purple"><span class="ans-label">Відповідь</span><span>\(\dfrac{1}{3}\sin(3x+\pi)+C\)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- HOMEWORK -->
+<div class="section-label">Домашнє завдання</div>
+<div class="hw-header">
+  <div>
+    <h2>12 інтегралів — лінійна заміна та загальна заміна</h2>
+    <p>Використовуй алгоритм із §2 та ознаки розпізнавання з §3</p>
+  </div>
+  <div class="hw-badge">📝 12 завдань</div>
+</div>
+
+<div class="block-title">Блок 1 — Лінійна заміна \(t=ax+b\)</div>
+<div class="ex-grid">
+  <div class="ex-item">
+    <span class="diff-tag dt-easy">лінійна</span>
+    <div class="ex-num">Завдання 1</div>
+    <div class="ex-expr">\(\displaystyle\int (x+1)^{15}dx\)</div>
+    <hr class="ex-line">
+    <div class="ex-ans-space">t = _____ → відповідь = _____</div>
+  </div>
+  <div class="ex-item">
+    <span class="diff-tag dt-easy">лінійна</span>
+    <div class="ex-num">Завдання 2</div>
+    <div class="ex-expr">\(\displaystyle\int \dfrac{dx}{(2x-3)^5}\)</div>
+    <hr class="ex-line">
+    <div class="ex-ans-space">t = _____ → відповідь = _____</div>
+  </div>
+  <div class="ex-item">
+    <span class="diff-tag dt-med">корінь</span>
+    <div class="ex-num">Завдання 3</div>
+    <div class="ex-expr">\(\displaystyle\int \sqrt[5]{(8-3x)^6}\,dx\)</div>
+    <hr class="ex-line">
+    <div class="ex-ans-space">t = _____ → відповідь = _____</div>
+  </div>
+  <div class="ex-item">
+    <span class="diff-tag dt-easy">лінійна</span>
+    <div class="ex-num">Завдання 4</div>
+    <div class="ex-expr">\(\displaystyle\int \sin(2x-3)\,dx\)</div>
+    <hr class="ex-line">
+    <div class="ex-ans-space">t = _____ → відповідь = _____</div>
+  </div>
+  <div class="ex-item">
+    <span class="diff-tag dt-easy">лінійна</span>
+    <div class="ex-num">Завдання 5</div>
+    <div class="ex-expr">\(\displaystyle\int e^{-3x+1}\,dx\)</div>
+    <hr class="ex-line">
+    <div class="ex-ans-space">t = _____ → відповідь = _____</div>
+  </div>
+</div>
+
+<div class="block-title" style="margin-top:4px">Блок 2 — Загальна заміна змінної</div>
+<div class="ex-grid">
+  <div class="ex-item">
+    <span class="diff-tag dt-med">показн.</span>
+    <div class="ex-num">Завдання 6</div>
+    <div class="ex-expr">\(\displaystyle\int 5x^4e^{x^5}dx\)</div>
+    <hr class="ex-line">
+    <div class="ex-ans-space">t = _____ → відповідь = _____</div>
+  </div>
+  <div class="ex-item">
+    <span class="diff-tag dt-med">степінь</span>
+    <div class="ex-num">Завдання 7</div>
+    <div class="ex-expr">\(\displaystyle\int 8x^7(x^8-2)^5dx\)</div>
+    <hr class="ex-line">
+    <div class="ex-ans-space">t = _____ → відповідь = _____</div>
+  </div>
+  <div class="ex-item">
+    <span class="diff-tag dt-med">тригон.</span>
+    <div class="ex-num">Завдання 8</div>
+    <div class="ex-expr">\(\displaystyle\int 10x^9\cos x^{10}dx\)</div>
+    <hr class="ex-line">
+    <div class="ex-ans-space">t = _____ → відповідь = _____</div>
+  </div>
+  <div class="ex-item">
+    <span class="diff-tag dt-med">логариф.</span>
+    <div class="ex-num">Завдання 9</div>
+    <div class="ex-expr">\(\displaystyle\int \dfrac{9x^8}{2+x^9}dx\)</div>
+    <hr class="ex-line">
+    <div class="ex-ans-space">t = _____ → відповідь = _____</div>
+  </div>
+  <div class="ex-item">
+    <span class="diff-tag dt-hard">тригон.</span>
+    <div class="ex-num">Завдання 10</div>
+    <div class="ex-expr">\(\displaystyle\int \sin^3\!x\cos x\,dx\)</div>
+    <hr class="ex-line">
+    <div class="ex-ans-space">t = _____ → відповідь = _____</div>
+  </div>
+  <div class="ex-item">
+    <span class="diff-tag dt-hard">tg/cos</span>
+    <div class="ex-num">Завдання 11</div>
+    <div class="ex-expr">\(\displaystyle\int \dfrac{\tan^3\!x}{\cos^2\!x}dx\)</div>
+    <hr class="ex-line">
+    <div class="ex-ans-space">t = _____ → відповідь = _____</div>
+  </div>
+  <div class="ex-item">
+    <span class="diff-tag dt-hard">arctan</span>
+    <div class="ex-num">Завдання 12</div>
+    <div class="ex-expr">\(\displaystyle\int \dfrac{(\arctan x)^2}{1+x^2}dx\)</div>
+    <hr class="ex-line">
+    <div class="ex-ans-space">t = _____ → відповідь = _____</div>
+  </div>
+</div>
+
+<footer class="footer">
+  <span>Математичний аналіз · Інтеграли · Метод заміни змінної</span>
+  <span>\(\int f(\varphi(x))d\varphi(x)=F(\varphi(x))+C\) · \(\int f(ax+b)dx=\frac{1}{a}F(ax+b)+C\)</span>
+</footer>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [{left:"\\(",right:"\\)",display:false},{left:"\\[",right:"\\]",display:true}],
+    throwOnError: false
+  });
+});
+</script>
+</body>
+</html>
