@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Інтеграли · Шпаргалка</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+/* ── TOKENS ─────────────────────────────────────────────────────────── */
+:root {
+  --bg:           #f7f4f0;
+  --card:         #ffffff;
+  --pink:         #e84fa3;
+  --pink-light:   #fde8f4;
+  --pink-mid:     #f9c9e8;
+  --purple:       #7c5cbf;
+  --purple-light: #ede8f8;
+  --green:        #17a06b;
+  --green-light:  #e3f5eb;
+  --red:          #d43030;
+  --red-light:    #fde8e8;
+  --ink:          #1a1228;
+  --muted:        #7a6e82;
+  --border:       #e5dff0;
+  --font-body:    'Space Grotesk', sans-serif;
+  --font-display: 'DM Serif Display', serif;
+  --font-mono:    'JetBrains Mono', monospace;
+}
+
+/* ── RESET ───────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  padding: 48px 24px;
+  line-height: 1.6;
+}
+
+/* ── LAYOUT ──────────────────────────────────────────────────────────── */
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ── KATEX overrides ─────────────────────────────────────────────────── */
+.katex { font-size: 1.05em; }
+.katex-display { overflow-x: auto; overflow-y: hidden; }
+
+/* ── HEADER ──────────────────────────────────────────────────────────── */
+.header {
+  background: var(--ink);
+  border-radius: 20px;
+  padding: 36px 40px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  right: -60px; top: -60px;
+  width: 240px; height: 240px;
+  border-radius: 50%;
+  background: var(--pink);
+  opacity: 0.12;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  right: 60px; bottom: -90px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: var(--purple);
+  opacity: 0.18;
+}
+.header-text { position: relative; z-index: 1; }
+.header-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: 8px;
+}
+.header-title {
+  font-family: var(--font-display);
+  font-size: 44px;
+  color: #fff;
+  line-height: 1.05;
+}
+.header-title em { color: var(--pink); font-style: italic; }
+.header-badges {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+.badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+.badge-pink  { background: var(--pink); color: #fff; }
+.badge-ghost { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.7); }
+
+/* ── SECTION LABEL ───────────────────────────────────────────────────── */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--pink);
+  border-radius: 2px;
+}
+
+/* ── DIVIDER ─────────────────────────────────────────────────────────── */
+.divider {
+  height: 2px;
+  background: linear-gradient(90deg, var(--pink), var(--purple));
+  border-radius: 2px;
+  opacity: 0.22;
+}
+
+/* ── NAV PILLS ───────────────────────────────────────────────────────── */
+.nav-pills {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.pill {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 50px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  color: var(--muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: border-color .15s, color .15s;
+}
+.pill:hover { border-color: var(--pink); color: var(--pink); }
+.pill-num {
+  background: var(--pink-light);
+  color: var(--pink);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 10px;
+}
+
+/* ── CARDS ───────────────────────────────────────────────────────────── */
+.card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  padding: 22px 26px;
+}
+.card-pink   { background: var(--pink-light);   border-color: var(--pink-mid); }
+.card-purple { background: var(--purple-light);  border-color: #d0c4f0; }
+.card-green  { background: var(--green-light);   border-color: #96ddb4; }
+.card-ink    { background: var(--ink);           border-color: var(--ink); }
+
+/* ── TABLE: FORMULAS ─────────────────────────────────────────────────── */
+.formula-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.formula-table th {
+  background: var(--purple-light);
+  padding: 10px 14px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--purple);
+  border-bottom: 1.5px solid var(--border);
+}
+.formula-table th:not(:last-child) { border-right: 1px solid var(--border); }
+.formula-table td {
+  padding: 10px 14px;
+  font-size: 13.5px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  vertical-align: middle;
+}
+.formula-table td:last-child { border-right: none; }
+.formula-table tr:last-child td { border-bottom: none; }
+.formula-table tr:nth-child(even) td { background: #faf8ff; }
+.formula-table td:first-child {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--pink);
+  font-weight: 600;
+  width: 32px;
+  text-align: center;
+}
+.formula-table .note-cell {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+}
+.formula-table .wrap { white-space: normal; }
+
+/* ── TWO-COL GRID ────────────────────────────────────────────────────── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ── PROPERTY BLOCKS ─────────────────────────────────────────────────── */
+.prop-block {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.prop-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pink);
+  font-weight: 600;
+}
+.prop-formula { font-size: 14px; color: var(--ink); }
+.prop-note    { font-size: 12px; color: var(--muted); }
+
+/* ── ALGORITHM STEPS ─────────────────────────────────────────────────── */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.step-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.step-num {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--pink);
+  opacity: 0.3;
+  line-height: 1;
+}
+.step-title { font-size: 13px; font-weight: 700; color: var(--ink); }
+.step-desc  { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+/* ── WORKED EXAMPLE BLOCKS ───────────────────────────────────────────── */
+.example-wrap { display: flex; flex-direction: column; gap: 0; }
+.ex-header {
+  background: linear-gradient(135deg, #1e0e35, #3a1f6e);
+  border-radius: 18px 18px 0 0;
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.ex-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--pink);
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 50px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ex-problem {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255,255,255,.9);
+}
+.ex-steps {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-top: none;
+  padding: 0;
+  overflow: hidden;
+}
+.ex-step {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 11px 20px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13.5px;
+}
+.ex-step:last-child { border-bottom: none; }
+.ex-step:nth-child(even) { background: #faf8ff; }
+.ex-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  background: var(--bg);
+  border-radius: 5px;
+  padding: 2px 7px;
+  color: var(--muted);
+  flex-shrink: 0;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+.ex-answer {
+  background: var(--pink-light);
+  border: 1.5px solid var(--pink-mid);
+  border-radius: 0 0 18px 18px;
+  padding: 13px 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.ex-answer-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.ex-answer-val { font-size: 15px; font-weight: 700; color: var(--pink); }
+.ex-note {
+  background: var(--purple-light);
+  border-radius: 0 0 10px 10px;
+  padding: 8px 20px 10px;
+  font-size: 12px;
+  color: var(--muted);
+  border: 1.5px solid #d0c4f0;
+  border-top: none;
+}
+.ex-note strong { color: var(--purple); }
+.example-wrap + .example-wrap { margin-top: 14px; }
+
+/* ── HOMEWORK ────────────────────────────────────────────────────────── */
+.hw-header {
+  background: linear-gradient(135deg, #1a0a2e, #3a1060);
+  border-radius: 18px;
+  padding: 24px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.hw-header-text h2 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.hw-header-text p { font-size: 12px; color: rgba(255,255,255,.5); }
+.hw-badge {
+  background: var(--purple);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 9px 18px;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+.hw-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.hw-item {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.hw-item.f { border-left: 4px solid var(--green); }
+.hw-item.m { border-left: 4px solid var(--pink); }
+.hw-item.h { border-left: 4px solid var(--purple); }
+.hw-level {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.hw-item.f .hw-level { color: var(--green); }
+.hw-item.m .hw-level { color: var(--pink); }
+.hw-item.h .hw-level { color: var(--purple); }
+.hw-num { font-family: var(--font-mono); font-size: 10px; color: var(--muted); }
+.hw-q   { font-size: 14px; color: var(--ink); }
+.hw-line {
+  border: none;
+  border-top: 1.5px dashed var(--border);
+  margin-top: 4px;
+}
+
+/* ── ANSWER TABLE ────────────────────────────────────────────────────── */
+.ans-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.ans-table th {
+  background: var(--purple-light);
+  padding: 9px 14px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--purple);
+  border-bottom: 1.5px solid var(--border);
+}
+.ans-table th:first-child { width: 36px; text-align: center; }
+.ans-table td {
+  padding: 9px 14px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.ans-table tr:last-child td { border-bottom: none; }
+.ans-table tr:nth-child(even) td { background: #faf8ff; }
+.ans-table td:first-child {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--pink);
+  text-align: center;
+}
+
+/* ── FOOTER ──────────────────────────────────────────────────────────── */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  padding: 0 4px;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .header { flex-direction: column; align-items: flex-start; }
+  .header-title { font-size: 32px; }
+  .two-col, .steps-grid, .hw-grid { grid-template-columns: 1fr; }
+  .ex-problem { font-size: 13px; }
+  .formula-table { font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-text">
+    <div class="header-eyebrow">Математичний аналіз · Урок 3</div>
+    <h1 class="header-title">Невизначений<br><em>інтеграл</em></h1>
+  </div>
+  <div class="header-badges">
+    <span class="badge badge-pink">Шпаргалка</span>
+    <span class="badge badge-ghost">Зведення до табличного</span>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="nav-pills">
+  <a href="#formulas"   class="pill"><span class="pill-num">§1</span>Таблиця формул</a>
+  <a href="#properties" class="pill"><span class="pill-num">§2</span>Властивості</a>
+  <a href="#algorithm"  class="pill"><span class="pill-num">§3</span>Алгоритм</a>
+  <a href="#examples"   class="pill"><span class="pill-num">§4</span>Приклади</a>
+  <a href="#homework"   class="pill"><span class="pill-num">§5</span>Д/З — 20 задач</a>
+</nav>
+
+<div class="divider"></div>
+
+<!-- §1 FORMULA TABLE -->
+<div class="section-label" id="formulas">§1 · Таблиця основних інтегралів</div>
+
+<table class="formula-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Інтеграл</th>
+      <th>Результат</th>
+      <th>Примітка</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>\(\displaystyle\int x^n\,dx\)</td><td>\(\dfrac{x^{n+1}}{n+1}+C\)</td><td class="note-cell">n ≠ −1</td></tr>
+    <tr><td>2</td><td>\(\displaystyle\int \frac{dx}{x}\)</td><td>\(\ln|x|+C\)</td><td class="note-cell">x ≠ 0</td></tr>
+    <tr><td>3</td><td>\(\displaystyle\int e^x\,dx\)</td><td>\(e^x+C\)</td><td class="note-cell"></td></tr>
+    <tr><td>4</td><td>\(\displaystyle\int a^x\,dx\)</td><td>\(\dfrac{a^x}{\ln a}+C\)</td><td class="note-cell">a&gt;0, a≠1</td></tr>
+    <tr><td>5</td><td>\(\displaystyle\int \sin x\,dx\)</td><td>\(-\cos x+C\)</td><td class="note-cell"></td></tr>
+    <tr><td>6</td><td>\(\displaystyle\int \cos x\,dx\)</td><td>\(\sin x+C\)</td><td class="note-cell"></td></tr>
+    <tr><td>7</td><td>\(\displaystyle\int \frac{dx}{\sin^2 x}\)</td><td>\(-\ctg x+C\)</td><td class="note-cell"></td></tr>
+    <tr><td>8</td><td>\(\displaystyle\int \frac{dx}{\cos^2 x}\)</td><td>\(\tg x+C\)</td><td class="note-cell"></td></tr>
+    <tr><td>9</td><td>\(\displaystyle\int \frac{dx}{\sqrt{1-x^2}}\)</td><td>\(\arcsin x+C\)</td><td class="note-cell"></td></tr>
+    <tr><td>10</td><td>\(\displaystyle\int \frac{dx}{1+x^2}\)</td><td>\(\arctg x+C\)</td><td class="note-cell"></td></tr>
+    <tr><td>11</td><td>\(\displaystyle\int \sqrt{x}\,dx\)</td><td>\(\tfrac{2}{3}x^{3/2}+C\)</td><td class="note-cell">\(= \tfrac{2}{3}x\sqrt{x}\)</td></tr>
+    <tr><td>12</td><td>\(\displaystyle\int \frac{dx}{\sqrt{x}}\)</td><td>\(2\sqrt{x}+C\)</td><td class="note-cell">\(x^{-1/2}\to x^{1/2}\)</td></tr>
+    <tr><td>13</td><td>\(\displaystyle\int x^{m/n}\,dx\)</td><td>\(\dfrac{x^{m/n+1}}{m/n+1}+C\)</td><td class="note-cell">дробовий степінь</td></tr>
+  </tbody>
+</table>
+
+<div class="divider"></div>
+
+<!-- §2 PROPERTIES -->
+<div class="section-label" id="properties">§2 · Ключові властивості та перетворення</div>
+
+<div class="two-col">
+  <div class="prop-block">
+    <div class="prop-name">Лінійність</div>
+    <div class="prop-formula">\(\int[f(x)\pm g(x)]\,dx = \int f\,dx \pm \int g\,dx\)</div>
+  </div>
+  <div class="prop-block">
+    <div class="prop-name">Константа</div>
+    <div class="prop-formula">\(\int k\cdot f(x)\,dx = k\int f(x)\,dx\)</div>
+  </div>
+  <div class="prop-block">
+    <div class="prop-name">Корінь → степінь</div>
+    <div class="prop-formula">\(\sqrt{x}=x^{1/2},\quad\sqrt[3]{x}=x^{1/3},\quad\sqrt[4]{x}=x^{1/4}\)</div>
+    <div class="prop-formula">\(\sqrt[n]{x^m}=x^{m/n}\)</div>
+  </div>
+  <div class="prop-block">
+    <div class="prop-name">Від'ємний показник</div>
+    <div class="prop-formula">\(\dfrac{1}{x^n}=x^{-n},\quad \dfrac{1}{\sqrt{x}}=x^{-1/2}\)</div>
+  </div>
+  <div class="prop-block">
+    <div class="prop-name">Добуток степенів</div>
+    <div class="prop-formula">\(x^a\cdot x^b = x^{a+b}\)</div>
+    <div class="prop-note">Приклад: \(x\cdot\sqrt{x}=x^1\cdot x^{1/2}=x^{3/2}\)</div>
+  </div>
+  <div class="prop-block">
+    <div class="prop-name">Частка степенів</div>
+    <div class="prop-formula">\(\dfrac{x^a}{x^b}=x^{a-b}\)</div>
+    <div class="prop-note">Приклад: \(\dfrac{x^2}{\sqrt{x}}=x^{2-1/2}=x^{3/2}\)</div>
+  </div>
+  <div class="prop-block">
+    <div class="prop-name">Нульовий показник</div>
+    <div class="prop-formula">\(x^0 = 1\)</div>
+    <div class="prop-note">Приклад: \(x^{1/2}\cdot x^{-1/2}=x^0=1\)</div>
+  </div>
+  <div class="prop-block">
+    <div class="prop-name">Розбиття дробу</div>
+    <div class="prop-formula">\(\dfrac{a+b}{c}=\dfrac{a}{c}+\dfrac{b}{c}\)</div>
+    <div class="prop-note">Головний прийом зведення до табличного</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- §3 ALGORITHM -->
+<div class="section-label" id="algorithm">§3 · Алгоритм — Зведення до табличного</div>
+
+<div class="steps-grid">
+  <div class="step-card">
+    <div class="step-num">01</div>
+    <div class="step-title">Запиши функцію</div>
+    <div class="step-desc">Виділи підінтегральну функцію окремо перед обчисленням</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">02</div>
+    <div class="step-title">Перетвори корені</div>
+    <div class="step-desc">Заміни \(\sqrt{x}\to x^{1/2}\), \(\frac{1}{x}\to x^{-1}\) тощо</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">03</div>
+    <div class="step-title">Розкрий дужки / дріб</div>
+    <div class="step-desc">Розкрий \((a+b)^2\) або розбий \(\frac{f}{g}\) на суму</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">04</div>
+    <div class="step-title">Зведи до \(x^n\)</div>
+    <div class="step-desc">Кожен доданок — вигляд \(x^n\), \(e^x\), \(\frac{1}{x}\)</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">05</div>
+    <div class="step-title">Застосуй формулу</div>
+    <div class="step-desc">\(\int x^n dx=\frac{x^{n+1}}{n+1}+C\) до кожного доданка</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">06</div>
+    <div class="step-title">Додай +C</div>
+    <div class="step-desc">Перевір диференціюванням: \(\frac{d}{dx}F(x)=f(x)\)?</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- §4 WORKED EXAMPLES -->
+<div class="section-label" id="examples">§4 · Розібрані приклади</div>
+
+<!-- EXAMPLE 1 -->
+<div class="example-wrap">
+  <div class="ex-header">
+    <span class="ex-num">Приклад 1</span>
+    <span class="ex-problem">\(\displaystyle\int\frac{dx}{x\sqrt{x}}\)</span>
+  </div>
+  <div class="ex-steps">
+    <div class="ex-step"><span class="ex-tag">перетв.</span><span>\(\dfrac{1}{x\sqrt{x}}=\dfrac{1}{x\cdot x^{1/2}}=\dfrac{1}{x^{3/2}}=x^{-3/2}\)</span></div>
+    <div class="ex-step"><span class="ex-tag">інтеграл</span><span>\(\displaystyle\int x^{-3/2}\,dx=\dfrac{x^{-3/2+1}}{-3/2+1}+C=\dfrac{x^{-1/2}}{-1/2}+C\)</span></div>
+    <div class="ex-step"><span class="ex-tag">спрощення</span><span>\(=-2x^{-1/2}+C\)</span></div>
+  </div>
+  <div class="ex-answer">
+    <span class="ex-answer-label">Відповідь</span>
+    <span class="ex-answer-val">\(-\dfrac{2}{\sqrt{x}}+C\)</span>
+  </div>
+  <div class="ex-note"><strong>Ключ:</strong> \(x\cdot\sqrt{x}=x^1\cdot x^{1/2}=x^{3/2}\), тому \(\frac{1}{x\sqrt{x}}=x^{-3/2}\)</div>
+</div>
+
+<!-- EXAMPLE 2 -->
+<div class="example-wrap">
+  <div class="ex-header">
+    <span class="ex-num">Приклад 2</span>
+    <span class="ex-problem">\(\displaystyle\int\frac{x^2-x+1}{\sqrt{x}}\,dx\)</span>
+  </div>
+  <div class="ex-steps">
+    <div class="ex-step"><span class="ex-tag">розбиття</span><span>\(\dfrac{x^2}{\sqrt{x}}-\dfrac{x}{\sqrt{x}}+\dfrac{1}{\sqrt{x}}=x^{3/2}-x^{1/2}+x^{-1/2}\)</span></div>
+    <div class="ex-step"><span class="ex-tag">інтеграл</span><span>\(\displaystyle\int\!\left[x^{3/2}-x^{1/2}+x^{-1/2}\right]dx=\dfrac{x^{5/2}}{5/2}-\dfrac{x^{3/2}}{3/2}+\dfrac{x^{1/2}}{1/2}+C\)</span></div>
+    <div class="ex-step"><span class="ex-tag">спрощення</span><span>\(=\dfrac{2}{5}x^{5/2}-\dfrac{2}{3}x^{3/2}+2x^{1/2}+C\)</span></div>
+  </div>
+  <div class="ex-answer">
+    <span class="ex-answer-label">Відповідь</span>
+    <span class="ex-answer-val">\(\dfrac{2}{5}x^2\sqrt{x}-\dfrac{2}{3}x\sqrt{x}+2\sqrt{x}+C\)</span>
+  </div>
+  <div class="ex-note"><strong>Прийом:</strong> \(\dfrac{x^n}{\sqrt{x}}=x^{n-1/2}\) — кожен доданок окремо ділиться на \(\sqrt{x}\)</div>
+</div>
+
+<!-- EXAMPLE 3 -->
+<div class="example-wrap">
+  <div class="ex-header">
+    <span class="ex-num">Приклад 3</span>
+    <span class="ex-problem">\(\displaystyle\int\frac{(x+1)^2}{\sqrt{x}}\,dx\)</span>
+  </div>
+  <div class="ex-steps">
+    <div class="ex-step"><span class="ex-tag">дужки</span><span>\((x+1)^2=x^2+2x+1\)</span></div>
+    <div class="ex-step"><span class="ex-tag">розбиття</span><span>\(\dfrac{x^2+2x+1}{\sqrt{x}}=x^{3/2}+2x^{1/2}+x^{-1/2}\)</span></div>
+    <div class="ex-step"><span class="ex-tag">інтеграл</span><span>\(\dfrac{x^{5/2}}{5/2}+2\cdot\dfrac{x^{3/2}}{3/2}+\dfrac{x^{1/2}}{1/2}+C\)</span></div>
+  </div>
+  <div class="ex-answer">
+    <span class="ex-answer-label">Відповідь</span>
+    <span class="ex-answer-val">\(\dfrac{2}{5}x^2\sqrt{x}+\dfrac{4}{3}x\sqrt{x}+2\sqrt{x}+C\)</span>
+  </div>
+  <div class="ex-note"><strong>Порядок:</strong> спершу розкрий дужки, потім розбий дріб на доданки</div>
+</div>
+
+<!-- EXAMPLE 4 -->
+<div class="example-wrap">
+  <div class="ex-header">
+    <span class="ex-num">Приклад 4</span>
+    <span class="ex-problem">\(\displaystyle\int\!\left(\sqrt{x}+\frac{1}{\sqrt[3]{x}}\right)^{\!2}dx\)</span>
+  </div>
+  <div class="ex-steps">
+    <div class="ex-step"><span class="ex-tag">форма</span><span>\(\left(x^{1/2}+x^{-1/3}\right)^2=x+2\cdot x^{1/2}\cdot x^{-1/3}+x^{-2/3}\)</span></div>
+    <div class="ex-step"><span class="ex-tag">показник</span><span>\(\tfrac{1}{2}-\tfrac{1}{3}=\tfrac{1}{6},\quad\text{тому }2x^{1/2-1/3}=2x^{1/6}\)</span></div>
+    <div class="ex-step"><span class="ex-tag">сума</span><span>\(=x+2x^{1/6}+x^{-2/3}\)</span></div>
+    <div class="ex-step"><span class="ex-tag">інтеграл</span><span>\(\dfrac{x^2}{2}+2\cdot\dfrac{x^{7/6}}{7/6}+\dfrac{x^{1/3}}{1/3}+C=\dfrac{x^2}{2}+\dfrac{12}{7}x^{7/6}+3x^{1/3}+C\)</span></div>
+  </div>
+  <div class="ex-answer">
+    <span class="ex-answer-label">Відповідь</span>
+    <span class="ex-answer-val">\(\dfrac{x^2}{2}+\dfrac{12}{7}x^{7/6}+3\sqrt[3]{x}+C\)</span>
+  </div>
+  <div class="ex-note"><strong>Увага:</strong> \(\tfrac{1}{2}-\tfrac{1}{3}=\tfrac{1}{6}\) — акуратно з дробовими показниками</div>
+</div>
+
+<!-- EXAMPLE 5 -->
+<div class="example-wrap">
+  <div class="ex-header">
+    <span class="ex-num">Приклад 5</span>
+    <span class="ex-problem">\(\displaystyle\int\!\left(\sqrt{x}-\frac{1}{\sqrt{x}}\right)^{\!2}dx\)</span>
+  </div>
+  <div class="ex-steps">
+    <div class="ex-step"><span class="ex-tag">розкриття</span><span>\(\left(x^{1/2}-x^{-1/2}\right)^2=x-2\cdot x^{1/2}\cdot x^{-1/2}+x^{-1}\)</span></div>
+    <div class="ex-step"><span class="ex-tag">нуль</span><span>\(x^{1/2}\cdot x^{-1/2}=x^0=1,\quad\text{тому }=x-2+x^{-1}\)</span></div>
+    <div class="ex-step"><span class="ex-tag">інтеграл</span><span>\(\displaystyle\int\!\left[x-2+\tfrac{1}{x}\right]dx=\dfrac{x^2}{2}-2x+\ln|x|+C\)</span></div>
+  </div>
+  <div class="ex-answer">
+    <span class="ex-answer-label">Відповідь</span>
+    <span class="ex-answer-val">\(\dfrac{x^2}{2}-2x+\ln|x|+C\)</span>
+  </div>
+  <div class="ex-note"><strong>Ключ:</strong> \(x^{1/2}\cdot x^{-1/2}=x^0=1\) — не забувай про нульовий показник</div>
+</div>
+
+<!-- EXAMPLE 6 -->
+<div class="example-wrap">
+  <div class="ex-header">
+    <span class="ex-num">Приклад 6</span>
+    <span class="ex-problem">\(\displaystyle\int\frac{\sqrt{x}-2\sqrt[3]{x^2}+1}{\sqrt[4]{x}}\,dx\)</span>
+  </div>
+  <div class="ex-steps">
+    <div class="ex-step"><span class="ex-tag">доданок 1</span><span>\(x^{1/2}\div x^{1/4}=x^{1/2-1/4}=x^{1/4}\)</span></div>
+    <div class="ex-step"><span class="ex-tag">доданок 2</span><span>\(x^{2/3}\div x^{1/4}=x^{2/3-1/4}=x^{8/12-3/12}=x^{5/12}\)</span></div>
+    <div class="ex-step"><span class="ex-tag">доданок 3</span><span>\(x^0\div x^{1/4}=x^{-1/4}\)</span></div>
+    <div class="ex-step"><span class="ex-tag">інтеграл</span><span>\(\dfrac{x^{5/4}}{5/4}-2\cdot\dfrac{x^{17/12}}{17/12}+\dfrac{x^{3/4}}{3/4}+C\)</span></div>
+    <div class="ex-step"><span class="ex-tag">результат</span><span>\(=\dfrac{4}{5}x^{5/4}-\dfrac{24}{17}x^{17/12}+\dfrac{4}{3}x^{3/4}+C\)</span></div>
+  </div>
+  <div class="ex-answer">
+    <span class="ex-answer-label">Відповідь</span>
+    <span class="ex-answer-val">\(\dfrac{4}{5}x^{5/4}-\dfrac{24}{17}x^{17/12}+\dfrac{4}{3}x^{3/4}+C\)</span>
+  </div>
+  <div class="ex-note"><strong>Прийом:</strong> ділимо кожен доданок на \(\sqrt[4]{x}=x^{1/4}\) окремо</div>
+</div>
+
+<!-- EXAMPLE 7 -->
+<div class="example-wrap">
+  <div class="ex-header">
+    <span class="ex-num">Приклад 7</span>
+    <span class="ex-problem">\(\displaystyle\int\frac{\sqrt{x}-x^3 e^x+x^2}{x^3}\,dx\)</span>
+  </div>
+  <div class="ex-steps">
+    <div class="ex-step"><span class="ex-tag">розбиття</span><span>\(\dfrac{\sqrt{x}}{x^3}-\dfrac{x^3 e^x}{x^3}+\dfrac{x^2}{x^3}=x^{-5/2}-e^x+x^{-1}\)</span></div>
+    <div class="ex-step"><span class="ex-tag">\(\int x^{-5/2}\)</span><span>\(\dfrac{x^{-3/2}}{-3/2}=-\dfrac{2}{3}x^{-3/2}\)</span></div>
+    <div class="ex-step"><span class="ex-tag">\(\int e^x\)</span><span>\(e^x\quad\text{(табличний інтеграл)}\)</span></div>
+    <div class="ex-step"><span class="ex-tag">\(\int x^{-1}\)</span><span>\(\ln|x|\)</span></div>
+  </div>
+  <div class="ex-answer">
+    <span class="ex-answer-label">Відповідь</span>
+    <span class="ex-answer-val">\(-\dfrac{2}{3x\sqrt{x}}-e^x+\ln|x|+C\)</span>
+  </div>
+  <div class="ex-note"><strong>Пам'ятай:</strong> \(\int e^x\,dx=e^x+C\) — табличний інтеграл</div>
+</div>
+
+<!-- EXAMPLE 8 -->
+<div class="example-wrap">
+  <div class="ex-header">
+    <span class="ex-num">Приклад 8</span>
+    <span class="ex-problem">\(\displaystyle\int\frac{\sqrt[3]{x^2}-\sqrt[4]{x}}{\sqrt{x}}\,dx\)</span>
+  </div>
+  <div class="ex-steps">
+    <div class="ex-step"><span class="ex-tag">доданок 1</span><span>\(x^{2/3}\div x^{1/2}=x^{2/3-1/2}=x^{4/6-3/6}=x^{1/6}\)</span></div>
+    <div class="ex-step"><span class="ex-tag">доданок 2</span><span>\(x^{1/4}\div x^{1/2}=x^{1/4-1/2}=x^{-1/4}\)</span></div>
+    <div class="ex-step"><span class="ex-tag">інтеграл</span><span>\(\displaystyle\int\!\left[x^{1/6}-x^{-1/4}\right]dx=\dfrac{x^{7/6}}{7/6}-\dfrac{x^{3/4}}{3/4}+C\)</span></div>
+  </div>
+  <div class="ex-answer">
+    <span class="ex-answer-label">Відповідь</span>
+    <span class="ex-answer-val">\(\dfrac{6}{7}x^{7/6}-\dfrac{4}{3}x^{3/4}+C\)</span>
+  </div>
+  <div class="ex-note"><strong>Правило:</strong> \(x^{m/n}\div x^{p/q}=x^{m/n-p/q}\) — зводь показники до спільного знаменника</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- §5 HOMEWORK -->
+<div class="section-label" id="homework">§5 · Домашнє завдання</div>
+
+<div class="hw-header">
+  <div class="hw-header-text">
+    <h2>20 задач — від простих до складних</h2>
+    <p>Foundation → Medium → Higher · Відповіді в кінці сторінки</p>
+  </div>
+  <span class="hw-badge">Д/З</span>
+</div>
+
+<div class="hw-grid">
+  <div class="hw-item f">
+    <div class="hw-level">Foundation</div>
+    <div class="hw-num">Задача 1</div>
+    <div class="hw-q">\(\displaystyle\int x^5\,dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item f">
+    <div class="hw-level">Foundation</div>
+    <div class="hw-num">Задача 2</div>
+    <div class="hw-q">\(\displaystyle\int\sqrt{x}\,dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item f">
+    <div class="hw-level">Foundation</div>
+    <div class="hw-num">Задача 3</div>
+    <div class="hw-q">\(\displaystyle\int\frac{dx}{x^3}\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item f">
+    <div class="hw-level">Foundation</div>
+    <div class="hw-num">Задача 4</div>
+    <div class="hw-q">\(\displaystyle\int e^x\,dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item f">
+    <div class="hw-level">Foundation</div>
+    <div class="hw-num">Задача 5</div>
+    <div class="hw-q">\(\displaystyle\int(3x^2-2x+5)\,dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item f">
+    <div class="hw-level">Foundation</div>
+    <div class="hw-num">Задача 6</div>
+    <div class="hw-q">\(\displaystyle\int\frac{dx}{\sqrt{x}}\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item f">
+    <div class="hw-level">Foundation</div>
+    <div class="hw-num">Задача 7</div>
+    <div class="hw-q">\(\displaystyle\int\sqrt[3]{x}\,dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item f">
+    <div class="hw-level">Foundation</div>
+    <div class="hw-num">Задача 8</div>
+    <div class="hw-q">\(\displaystyle\int\!\left(\sqrt{x}+\frac{1}{\sqrt{x}}\right)dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item m">
+    <div class="hw-level">Medium</div>
+    <div class="hw-num">Задача 9</div>
+    <div class="hw-q">\(\displaystyle\int\frac{x^2+2x+1}{\sqrt{x}}\,dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item m">
+    <div class="hw-level">Medium</div>
+    <div class="hw-num">Задача 10</div>
+    <div class="hw-q">\(\displaystyle\int(\sqrt{x}-1)^2\,dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item m">
+    <div class="hw-level">Medium</div>
+    <div class="hw-num">Задача 11</div>
+    <div class="hw-q">\(\displaystyle\int\!\left(x-\frac{1}{x}\right)^{\!2}dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item m">
+    <div class="hw-level">Medium</div>
+    <div class="hw-num">Задача 12</div>
+    <div class="hw-q">\(\displaystyle\int\!\left(\sqrt[3]{x}+\frac{1}{\sqrt[3]{x}}\right)^{\!2}dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item m">
+    <div class="hw-level">Medium</div>
+    <div class="hw-num">Задача 13</div>
+    <div class="hw-q">\(\displaystyle\int\frac{x^3-\sqrt{x}+e^x}{x^2}\,dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item m">
+    <div class="hw-level">Medium</div>
+    <div class="hw-num">Задача 14</div>
+    <div class="hw-q">\(\displaystyle\int\frac{\sqrt{x}-2\sqrt[3]{x^2}}{\sqrt[4]{x}}\,dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item m">
+    <div class="hw-level">Medium</div>
+    <div class="hw-num">Задача 15</div>
+    <div class="hw-q">\(\displaystyle\int\!\left(x^{3/2}-x^{-1/2}\right)dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item h">
+    <div class="hw-level">Higher</div>
+    <div class="hw-num">Задача 16</div>
+    <div class="hw-q">\(\displaystyle\int\!\left(\sqrt[4]{x}-\frac{1}{\sqrt[4]{x}}\right)^{\!2}dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item h">
+    <div class="hw-level">Higher</div>
+    <div class="hw-num">Задача 17</div>
+    <div class="hw-q">\(\displaystyle\int\frac{\sqrt{x}-xe^x+1}{x^{3/2}}\,dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item h">
+    <div class="hw-level">Higher</div>
+    <div class="hw-num">Задача 18</div>
+    <div class="hw-q">\(\displaystyle\int\frac{x^2-2\sqrt[4]{x^3}+1}{\sqrt[3]{x}}\,dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item h">
+    <div class="hw-level">Higher</div>
+    <div class="hw-num">Задача 19</div>
+    <div class="hw-q">\(\displaystyle\int\frac{\sqrt[3]{x^2}-\sqrt[4]{x^3}+x}{\sqrt{x}}\,dx\)</div>
+    <hr class="hw-line">
+  </div>
+  <div class="hw-item h">
+    <div class="hw-level">Higher</div>
+    <div class="hw-num">Задача 20</div>
+    <div class="hw-q">\(\displaystyle\int\frac{(x+1)^3}{x^2}\,dx\)</div>
+    <hr class="hw-line">
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ANSWER KEY -->
+<div class="section-label">Ключ відповідей</div>
+
+<table class="ans-table">
+  <thead>
+    <tr><th>#</th><th>Відповідь</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>\(\dfrac{x^6}{6}+C\)</td></tr>
+    <tr><td>2</td><td>\(\dfrac{2}{3}x^{3/2}+C\)</td></tr>
+    <tr><td>3</td><td>\(-\dfrac{1}{2x^2}+C\)</td></tr>
+    <tr><td>4</td><td>\(e^x+C\)</td></tr>
+    <tr><td>5</td><td>\(x^3-x^2+5x+C\)</td></tr>
+    <tr><td>6</td><td>\(2\sqrt{x}+C\)</td></tr>
+    <tr><td>7</td><td>\(\dfrac{3}{4}x^{4/3}+C\)</td></tr>
+    <tr><td>8</td><td>\(\dfrac{2}{3}x^{3/2}+2x^{1/2}+C\)</td></tr>
+    <tr><td>9</td><td>\(\dfrac{2}{5}x^{5/2}+\dfrac{4}{3}x^{3/2}+2x^{1/2}+C\)</td></tr>
+    <tr><td>10</td><td>\(\dfrac{x^2}{2}-\dfrac{4}{3}x^{3/2}+x+C\)</td></tr>
+    <tr><td>11</td><td>\(\dfrac{x^2}{2}-2\ln|x|-\dfrac{1}{2x^2}+C\) &nbsp;[розкрий \((x-1/x)^2=x^2-2+x^{-2}\)]</td></tr>
+    <tr><td>12</td><td>\(\dfrac{3}{5}x^{5/3}+3x^{1/3}-3x^{-1/3}+C\) &nbsp;[розкрий \((\sqrt[3]{x}+x^{-1/3})^2\)]</td></tr>
+    <tr><td>13</td><td>\(\dfrac{x^2}{2}+\dfrac{1}{x}+e^x+C\) &nbsp;[\(\sqrt{x}/x^2=x^{-3/2}\); \(e^x/x^2\to e^x\) — лише після розбиття]</td></tr>
+    <tr><td>14</td><td>\(\dfrac{4}{5}x^{5/4}-\dfrac{24}{17}x^{17/12}+C\)</td></tr>
+    <tr><td>15</td><td>\(\dfrac{2}{5}x^{5/2}-2x^{1/2}+C\)</td></tr>
+    <tr><td>16</td><td>\(\dfrac{4}{3}x^{3/2}-4x-\dfrac{4}{3}x^{-1/2}+C\) &nbsp;[розкрий \((x^{1/4}-x^{-1/4})^2\)]</td></tr>
+    <tr><td>17</td><td>\(-\dfrac{2}{3}x^{-1/2}-e^x+\ln|x|+C=-\dfrac{2}{3\sqrt{x}}-e^x+\ln|x|+C\)</td></tr>
+    <tr><td>18</td><td>\(\dfrac{6}{7}x^{7/6}-\dfrac{24}{17}x^{17/12}+3x^{2/3}+C\) &nbsp;[ділимо на \(x^{1/3}\)]</td></tr>
+    <tr><td>19</td><td>\(\dfrac{6}{7}x^{7/6}-\dfrac{4}{7}x^{7/4}+\dfrac{2}{3}x^{3/2}+C\) &nbsp;[ділимо на \(\sqrt{x}\)]</td></tr>
+    <tr><td>20</td><td>\(\dfrac{x^2}{2}+3x-3\ln|x|-\dfrac{1}{x}+C\) &nbsp;[(x+1)³=x³+3x²+3x+1, ÷x²]</td></tr>
+  </tbody>
+</table>
+
+<div class="card card-pink" style="display:flex;align-items:center;gap:14px;">
+  <span style="font-size:22px;">📌</span>
+  <span style="font-size:14px;color:var(--ink);">
+    <strong>Перевірка:</strong> Диференціюй відповідь — результат повинен збігатися з підінтегральною функцією.
+    Кожна відповідь містить <strong>+ C</strong>!
+  </span>
+</div>
+
+<footer class="footer">
+  <span>Математичний аналіз · Невизначений інтеграл · Урок 3</span>
+  <span style="font-family:var(--font-mono)">\(\int x^n dx = \frac{x^{n+1}}{n+1}+C\)</span>
+</footer>
+
+</div><!-- .page -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "\\(", right: "\\)", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\displaystyle", right: "", display: false}
+    ],
+    throwOnError: false,
+    macros: {
+      "\\ctg": "\\operatorname{ctg}",
+      "\\tg":  "\\operatorname{tg}",
+      "\\arctg": "\\operatorname{arctg}"
+    }
+  });
+});
+</script>
+</body>
+</html>
