@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surds & Indices · Шпаргалка</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+:root {
+  --bg:#f7f4f0; --card:#fff;
+  --pink:#e84fa3; --pink-light:#fde8f4; --pink-mid:#f9c9e8;
+  --purple:#7c5cbf; --purple-light:#ede8f8;
+  --green:#17a06b; --green-light:#e3f5eb;
+  --orange:#d45e10; --orange-light:#fff1e6;
+  --red:#d43030; --red-light:#fde8e8;
+  --ink:#1a1228; --muted:#7a6e82; --border:#e5dff0;
+  --mono:'JetBrains Mono',monospace;
+  --display:'DM Serif Display',serif;
+  --body:'Space Grotesk',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);padding:48px 24px;line-height:1.6;}
+.page{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px;}
+.katex{font-size:1.05em;}
+
+/* ── HEADER ─────────────────────────────────────────────────── */
+.header{background:var(--ink);border-radius:20px;padding:34px 38px;position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;}
+.header::before{content:'';position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;background:var(--pink);opacity:.12;}
+.header::after{content:'';position:absolute;right:60px;bottom:-90px;width:180px;height:180px;border-radius:50%;background:var(--purple);opacity:.18;}
+.header-text{position:relative;z-index:1;}
+.header-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--pink);margin-bottom:8px;}
+.header-title{font-family:var(--display);font-size:42px;color:#fff;line-height:1.05;}
+.header-title em{color:var(--pink);font-style:italic;}
+.header-badges{position:relative;z-index:1;display:flex;flex-direction:column;gap:8px;align-items:flex-end;flex-shrink:0;}
+.badge{font-family:var(--mono);font-size:11px;font-weight:600;padding:7px 14px;border-radius:50px;white-space:nowrap;}
+.badge-pink{background:var(--pink);color:#fff;}
+.badge-ghost{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);}
+
+/* ── NAV ─────────────────────────────────────────────────────── */
+.nav{display:flex;gap:10px;flex-wrap:wrap;}
+.pill{font-family:var(--mono);font-size:11px;font-weight:600;padding:8px 15px;border-radius:50px;background:var(--card);border:1.5px solid var(--border);color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px;transition:.15s;}
+.pill:hover{border-color:var(--pink);color:var(--pink);}
+.pill-num{background:var(--pink-light);color:var(--pink);border-radius:6px;padding:2px 7px;font-size:10px;}
+
+/* ── SECTION LABEL ───────────────────────────────────────────── */
+.sec-label{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.sec-label::before{content:'';display:block;width:24px;height:2px;background:var(--pink);border-radius:2px;}
+
+/* ── DIVIDER ─────────────────────────────────────────────────── */
+.divider{height:2px;background:linear-gradient(90deg,var(--pink),var(--purple));border-radius:2px;opacity:.22;}
+
+/* ── TOPIC HEADER ────────────────────────────────────────────── */
+.topic-header{background:linear-gradient(135deg,#1e0e35,#3a1f6e);border-radius:20px;padding:22px 30px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.topic-header h2{font-family:var(--display);font-size:22px;color:#fff;margin-bottom:3px;}
+.topic-header p{font-size:12px;color:rgba(255,255,255,.5);}
+.topic-badge{font-family:var(--mono);font-size:12px;font-weight:700;padding:8px 16px;border-radius:50px;white-space:nowrap;flex-shrink:0;}
+.tb-pink{background:var(--pink);color:#fff;}
+.tb-purple{background:var(--purple);color:#fff;}
+.tb-green{background:var(--green);color:#fff;}
+
+/* ── RULE CARDS ──────────────────────────────────────────────── */
+.rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.rule-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;overflow:hidden;}
+.rule-head{padding:12px 18px;border-bottom:1.5px solid var(--border);display:flex;align-items:center;gap:10px;}
+.rh-pink{background:var(--pink-light);}
+.rh-purple{background:var(--purple-light);}
+.rh-green{background:var(--green-light);}
+.rh-orange{background:var(--orange-light);}
+.rule-tag{font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 10px;border-radius:6px;color:#fff;}
+.rt-pink{background:var(--pink);}
+.rt-purple{background:var(--purple);}
+.rt-green{background:var(--green);}
+.rt-orange{background:var(--orange);}
+.rule-name{font-size:13px;font-weight:700;color:var(--ink);}
+.rule-body{padding:16px 18px;display:flex;flex-direction:column;gap:10px;}
+.rule-formula{font-size:16px;text-align:center;background:var(--bg);border-radius:10px;padding:11px 14px;border:1px solid var(--border);}
+.rule-note{font-size:12.5px;color:var(--muted);line-height:1.55;}
+.rule-note strong{color:var(--ink);}
+.rule-ex{font-size:13px;background:rgba(232,79,163,.06);border-radius:8px;padding:7px 12px;line-height:1.55;}
+
+/* ── WORKED EXAMPLES ─────────────────────────────────────────── */
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;overflow:hidden;}
+.ex-head{padding:11px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.ex-letter{font-family:var(--mono);font-size:11px;font-weight:700;color:#fff;width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.el-pink{background:var(--pink);}
+.el-purple{background:var(--purple);}
+.el-green{background:var(--green);}
+.el-orange{background:var(--orange);}
+.ex-title-txt{font-size:13px;font-weight:600;color:var(--ink);}
+.ex-body{padding:14px 16px;display:flex;flex-direction:column;gap:8px;}
+.ex-row{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.55;}
+.ex-tag{font-family:var(--mono);font-size:9px;font-weight:600;background:var(--bg);border-radius:4px;padding:2px 7px;color:var(--muted);flex-shrink:0;margin-top:3px;white-space:nowrap;}
+.ans-row{border-radius:10px;padding:9px 13px;display:flex;align-items:center;gap:10px;margin-top:4px;}
+.ans-pink{background:var(--pink-light);border:1.5px solid var(--pink-mid);}
+.ans-purple{background:var(--purple-light);border:1.5px solid #d0c4f0;}
+.ans-green{background:var(--green-light);border:1.5px solid #96ddb4;}
+.ans-orange{background:var(--orange-light);border:1.5px solid #f5c49a;}
+.ans-label{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);flex-shrink:0;}
+.ans-val{font-size:15px;font-weight:700;}
+.av-pink{color:var(--pink);}
+.av-purple{color:var(--purple);}
+.av-green{color:var(--green);}
+.av-orange{color:var(--orange);}
+
+/* ── REFERENCE TABLE ─────────────────────────────────────────── */
+.ref-table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden;border:1.5px solid var(--border);background:var(--card);}
+.ref-table th{background:var(--purple-light);padding:9px 14px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--purple);border-bottom:1.5px solid var(--border);border-right:1px solid var(--border);}
+.ref-table th:last-child{border-right:none;}
+.ref-table td{padding:8px 12px;text-align:center;font-size:13px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);}
+.ref-table td:last-child{border-right:none;}
+.ref-table tr:last-child td{border-bottom:none;}
+.ref-table tr:nth-child(even) td{background:#faf8ff;}
+
+/* ── ALERT BOXES ─────────────────────────────────────────────── */
+.alert{border-radius:16px;padding:16px 20px;display:flex;gap:14px;align-items:flex-start;}
+.alert-red{background:var(--red-light);border:1.5px solid #f0a8b8;}
+.alert-green{background:var(--green-light);border:1.5px solid #96ddb4;}
+.alert-pink{background:var(--pink-light);border:1.5px solid var(--pink-mid);}
+.alert-icon{font-size:18px;flex-shrink:0;margin-top:2px;}
+.alert-body h4{font-size:13px;font-weight:700;margin-bottom:4px;}
+.alert-red .alert-body h4{color:var(--red);}
+.alert-green .alert-body h4{color:var(--green);}
+.alert-pink .alert-body h4{color:var(--pink);}
+.alert-body p{font-size:12.5px;color:var(--muted);line-height:1.55;}
+.alert-body p strong{color:var(--ink);}
+.two-col-alert{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* ── HOMEWORK ────────────────────────────────────────────────── */
+.hw-header{background:linear-gradient(135deg,#1a0a2e,#3a1060);border-radius:18px;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.hw-header h3{font-family:var(--display);font-size:20px;color:#fff;margin-bottom:3px;}
+.hw-header p{font-size:11px;color:rgba(255,255,255,.5);}
+.hw-badge{background:var(--purple);color:#fff;font-family:var(--mono);font-size:12px;font-weight:700;padding:8px 16px;border-radius:50px;white-space:nowrap;}
+.hw-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.hw-item{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:13px 15px;display:flex;flex-direction:column;gap:7px;}
+.hw-item.lv-f{border-left:4px solid var(--green);}
+.hw-item.lv-m{border-left:4px solid var(--pink);}
+.hw-item.lv-h{border-left:4px solid var(--purple);}
+.hw-lv{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+.lv-f .hw-lv{color:var(--green);}
+.lv-m .hw-lv{color:var(--pink);}
+.lv-h .hw-lv{color:var(--purple);}
+.hw-num{font-family:var(--mono);font-size:10px;color:var(--muted);}
+.hw-q{font-size:14px;color:var(--ink);}
+.hw-line{border:none;border-top:1.5px dashed var(--border);margin-top:4px;}
+
+/* ── ANS KEY ─────────────────────────────────────────────────── */
+.ans-key{background:var(--card);border:1.5px solid var(--border);border-radius:18px;overflow:hidden;}
+.ans-key-head{background:var(--purple-light);padding:10px 16px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--purple);font-weight:700;border-bottom:1.5px solid var(--border);}
+.ans-key-body{padding:16px;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+.ans-item{background:var(--bg);border-radius:10px;padding:8px 10px;font-size:12.5px;text-align:center;}
+.ans-item strong{display:block;font-family:var(--mono);font-size:10px;color:var(--pink);margin-bottom:3px;}
+
+.footer{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:11px;color:var(--muted);padding:0 4px;}
+
+@media(max-width:640px){
+  .rules-grid,.ex-grid,.hw-grid,.two-col-alert,.ans-key-body{grid-template-columns:1fr;}
+  .header{flex-direction:column;align-items:flex-start;}
+  .header-title{font-size:30px;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-text">
+    <div class="header-eyebrow">GCSE Maths · Algebra & Number</div>
+    <h1 class="header-title">Surds &amp; <em>Indices</em></h1>
+  </div>
+  <div class="header-badges">
+    <span class="badge badge-pink">Шпаргалка</span>
+    <span class="badge badge-ghost">3 теми · 30 задач</span>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="#topic1" class="pill"><span class="pill-num">1</span>Negative Bases</a>
+  <a href="#topic2" class="pill"><span class="pill-num">2</span>Square &amp; Cube Roots</a>
+  <a href="#topic3" class="pill"><span class="pill-num">3</span>Surds — Operations</a>
+</nav>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     TOPIC 1 — NEGATIVE BASES
+══════════════════════════════════════════════════════════════ -->
+<div id="topic1">
+<div class="topic-header">
+  <div>
+    <h2>Тема 1 · Negative Bases</h2>
+    <p>Від'ємна основа у степені — правила знаку</p>
+  </div>
+  <span class="topic-badge tb-pink">(-a)ⁿ</span>
+</div>
+
+<div class="sec-label">Головні правила</div>
+<div class="rules-grid">
+  <div class="rule-card">
+    <div class="rule-head rh-pink"><span class="rule-tag rt-pink">Непарний степінь</span><span class="rule-name">ODD power → NEGATIVE</span></div>
+    <div class="rule-body">
+      <div class="rule-formula">\((-a)^{\text{odd}} < 0\)</div>
+      <div class="rule-note">Від'ємна основа у <strong>непарному</strong> степені дає від'ємний результат</div>
+      <div class="rule-ex">\((-2)^1=-2,\quad(-2)^3=-8,\quad(-3)^3=-27\)</div>
+    </div>
+  </div>
+  <div class="rule-card">
+    <div class="rule-head rh-purple"><span class="rule-tag rt-purple">Парний степінь</span><span class="rule-name">EVEN power → POSITIVE</span></div>
+    <div class="rule-body">
+      <div class="rule-formula">\((-a)^{\text{even}} > 0\)</div>
+      <div class="rule-note">Від'ємна основа у <strong>парному</strong> степені дає додатній результат</div>
+      <div class="rule-ex">\((-2)^2=4,\quad(-2)^4=16,\quad(-5)^2=25\)</div>
+    </div>
+  </div>
+  <div class="rule-card">
+    <div class="rule-head rh-orange"><span class="rule-tag rt-orange">Увага!</span><span class="rule-name">-a² vs (-a)²</span></div>
+    <div class="rule-body">
+      <div class="rule-formula">\(-5^2 \neq (-5)^2\)</div>
+      <div class="rule-note"><strong>-5²</strong> = -(5×5) = <strong>-25</strong> · дужок немає → спочатку степінь, потім мінус<br><strong>(-5)²</strong> = (-5)×(-5) = <strong>+25</strong> · дужки → мінус всередині</div>
+    </div>
+  </div>
+  <div class="rule-card">
+    <div class="rule-head rh-green"><span class="rule-tag rt-green">Швидкий тест</span><span class="rule-name">Парний / Непарний?</span></div>
+    <div class="rule-body">
+      <div class="rule-note">
+        <strong>Парні:</strong> 0, 2, 4, 6, 8, 10 … → результат +<br>
+        <strong>Непарні:</strong> 1, 3, 5, 7, 9 … → результат −<br><br>
+        Trick: \((-1)^n = +1\) якщо n парне, \(-1\) якщо непарне
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sec-label">Розібрані приклади</div>
+<div class="ex-grid">
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-pink">1</span><span class="ex-title-txt">Evaluate \(-5^2\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">порядок</span><span>Немає дужок → спочатку степінь</span></div>
+      <div class="ex-row"><span class="ex-tag">крок</span><span>\(-5^2 = -(5\times5) = -25\)</span></div>
+      <div class="ans-row ans-pink"><span class="ans-label">Відповідь</span><span class="ans-val av-pink">\(-25\)</span></div>
+    </div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-purple">2</span><span class="ex-title-txt">Evaluate \((-5)^2\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">дужки</span><span>Є дужки → мінус входить у основу</span></div>
+      <div class="ex-row"><span class="ex-tag">крок</span><span>\((-5)^2=(-5)\times(-5)=+25\)</span></div>
+      <div class="ans-row ans-purple"><span class="ans-label">Відповідь</span><span class="ans-val av-purple">\(+25\)</span></div>
+    </div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-green">3</span><span class="ex-title-txt">Evaluate \(-3^3\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">крок</span><span>\(-3^3=-(3\times3\times3)=-27\)</span></div>
+      <div class="ans-row ans-green"><span class="ans-label">Відповідь</span><span class="ans-val av-green">\(-27\)</span></div>
+    </div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-orange">4</span><span class="ex-title-txt">Evaluate \((-3)^3\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">тест</span><span>3 — непарне → результат від'ємний</span></div>
+      <div class="ex-row"><span class="ex-tag">крок</span><span>\((-3)^3=(-3)\!\times\!(-3)\!\times\!(-3)=9\times(-3)=-27\)</span></div>
+      <div class="ans-row ans-orange"><span class="ans-label">Відповідь</span><span class="ans-val av-orange">\(-27\)</span></div>
+    </div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-pink">5</span><span class="ex-title-txt">Evaluate \((-1)^3\times 2^2\times 3\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">крок 1</span><span>\((-1)^3=-1\) (непарне)</span></div>
+      <div class="ex-row"><span class="ex-tag">крок 2</span><span>\(2^2=4\)</span></div>
+      <div class="ex-row"><span class="ex-tag">крок 3</span><span>\(-1\times4\times3=-12\)</span></div>
+      <div class="ans-row ans-pink"><span class="ans-label">Відповідь</span><span class="ans-val av-pink">\(-12\)</span></div>
+    </div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-purple">6</span><span class="ex-title-txt">Evaluate \(3^2\times(-5)^3\times(-2)\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">крок 1</span><span>\(3^2=9\)</span></div>
+      <div class="ex-row"><span class="ex-tag">крок 2</span><span>\((-5)^3=-125\) (непарне → −)</span></div>
+      <div class="ex-row"><span class="ex-tag">крок 3</span><span>\(9\times(-125)\times(-2)=9\times250=2250\)</span></div>
+      <div class="ans-row ans-purple"><span class="ans-label">Відповідь</span><span class="ans-val av-purple">\(2250\)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="two-col-alert">
+  <div class="alert alert-red">
+    <div class="alert-icon">❌</div>
+    <div class="alert-body">
+      <h4>Типова помилка</h4>
+      <p>\(-5^2\) ≠ \((-5)^2\) — різні вирази! Без дужок мінус не входить в основу.</p>
+    </div>
+  </div>
+  <div class="alert alert-green">
+    <div class="alert-icon">✅</div>
+    <div class="alert-body">
+      <h4>Правило підрахунку мінусів</h4>
+      <p>Парна кількість від'ємних множників → <strong>+</strong><br>Непарна кількість → <strong>−</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- HW TOPIC 1 -->
+<div class="hw-header">
+  <div><h3>Завдання — Тема 1</h3><p>Foundation → Medium → Higher</p></div>
+  <span class="hw-badge">10 задач</span>
+</div>
+<div class="hw-grid">
+  <div class="hw-item lv-f"><div class="hw-lv">Foundation</div><div class="hw-num">1</div><div class="hw-q">\((-2)^4\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-f"><div class="hw-lv">Foundation</div><div class="hw-num">2</div><div class="hw-q">\((-3)^2\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-f"><div class="hw-lv">Foundation</div><div class="hw-num">3</div><div class="hw-q">\(-4^2\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-f"><div class="hw-lv">Foundation</div><div class="hw-num">4</div><div class="hw-q">\((-1)^5\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-m"><div class="hw-lv">Medium</div><div class="hw-num">5</div><div class="hw-q">\(-(-5)^2\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-m"><div class="hw-lv">Medium</div><div class="hw-num">6</div><div class="hw-q">\((-2)^3\times(-3)\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-m"><div class="hw-lv">Medium</div><div class="hw-num">7</div><div class="hw-q">\(-2\times3^3\times(-5)\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-m"><div class="hw-lv">Medium</div><div class="hw-num">8</div><div class="hw-q">\((-7)^2 - (-7^2)\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-h"><div class="hw-lv">Higher</div><div class="hw-num">9</div><div class="hw-q">\((-1)^3\times 2^2\times(-3)^2\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-h"><div class="hw-lv">Higher</div><div class="hw-num">10</div><div class="hw-q">\(-(-2)^4 + (-3)^3 - (-1)^{10}\)</div><hr class="hw-line"></div>
+</div>
+<div class="ans-key">
+  <div class="ans-key-head">Відповіді — Тема 1</div>
+  <div class="ans-key-body">
+    <div class="ans-item"><strong>1</strong>16</div>
+    <div class="ans-item"><strong>2</strong>9</div>
+    <div class="ans-item"><strong>3</strong>−16</div>
+    <div class="ans-item"><strong>4</strong>−1</div>
+    <div class="ans-item"><strong>5</strong>−25</div>
+    <div class="ans-item"><strong>6</strong>24</div>
+    <div class="ans-item"><strong>7</strong>270</div>
+    <div class="ans-item"><strong>8</strong>98</div>
+    <div class="ans-item"><strong>9</strong>−36</div>
+    <div class="ans-item"><strong>10</strong>−44</div>
+  </div>
+</div>
+</div><!-- /topic1 -->
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     TOPIC 2 — SQUARE & CUBE ROOTS
+══════════════════════════════════════════════════════════════ -->
+<div id="topic2">
+<div class="topic-header">
+  <div>
+    <h2>Тема 2 · Square &amp; Cube Roots</h2>
+    <p>Квадратні та кубічні корені — таблиця і обчислення</p>
+  </div>
+  <span class="topic-badge tb-purple">\(\sqrt{\phantom{x}}\) · \(\sqrt[3]{\phantom{x}}\)</span>
+</div>
+
+<div class="sec-label">Ключові визначення</div>
+<div class="rules-grid">
+  <div class="rule-card">
+    <div class="rule-head rh-pink"><span class="rule-tag rt-pink">Square Root</span><span class="rule-name">Квадратний корінь</span></div>
+    <div class="rule-body">
+      <div class="rule-formula">\(\sqrt{a}=b \iff b^2=a,\quad b\ge0\)</div>
+      <div class="rule-note">\(\sqrt{a}\) — число, яке у квадраті дає \(a\)</div>
+      <div class="rule-ex">\(\sqrt{25}=5\) бо \(5^2=25\)</div>
+    </div>
+  </div>
+  <div class="rule-card">
+    <div class="rule-head rh-purple"><span class="rule-tag rt-purple">Cube Root</span><span class="rule-name">Кубічний корінь</span></div>
+    <div class="rule-body">
+      <div class="rule-formula">\(\sqrt[3]{a}=b \iff b^3=a\)</div>
+      <div class="rule-note">\(\sqrt[3]{a}\) — число, яке у кубі дає \(a\). Може бути від'ємним!</div>
+      <div class="rule-ex">\(\sqrt[3]{-8}=-2\) бо \((-2)^3=-8\)</div>
+    </div>
+  </div>
+  <div class="rule-card">
+    <div class="rule-head rh-green"><span class="rule-tag rt-green">Perfect Squares</span><span class="rule-name">Повні квадрати 1–15</span></div>
+    <div class="rule-body">
+      <div class="rule-note" style="font-size:12px;line-height:2;">
+        \(1^2=1,\ 2^2=4,\ 3^2=9,\ 4^2=16,\ 5^2=25\)<br>
+        \(6^2=36,\ 7^2=49,\ 8^2=64,\ 9^2=81,\ 10^2=100\)<br>
+        \(11^2=121,\ 12^2=144,\ 13^2=169,\ 14^2=196,\ 15^2=225\)
+      </div>
+    </div>
+  </div>
+  <div class="rule-card">
+    <div class="rule-head rh-orange"><span class="rule-tag rt-orange">Perfect Cubes</span><span class="rule-name">Повні куби 1–10</span></div>
+    <div class="rule-body">
+      <div class="rule-note" style="font-size:12px;line-height:2;">
+        \(1^3=1,\ 2^3=8,\ 3^3=27,\ 4^3=64,\ 5^3=125\)<br>
+        \(6^3=216,\ 7^3=343,\ 8^3=512,\ 9^3=729,\ 10^3=1000\)
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reference table compact -->
+<div class="sec-label">Таблиця швидкого пошуку</div>
+<table class="ref-table">
+  <thead>
+    <tr>
+      <th>n</th>
+      <th>\(n^2\)</th>
+      <th>\(\sqrt{n^2}\)</th>
+      <th>\(n^3\)</th>
+      <th>\(\sqrt[3]{n^3}\)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+    <tr><td>2</td><td>4</td><td>2</td><td>8</td><td>2</td></tr>
+    <tr><td>3</td><td>9</td><td>3</td><td>27</td><td>3</td></tr>
+    <tr><td>4</td><td>16</td><td>4</td><td>64</td><td>4</td></tr>
+    <tr><td>5</td><td>25</td><td>5</td><td>125</td><td>5</td></tr>
+    <tr><td>6</td><td>36</td><td>6</td><td>216</td><td>6</td></tr>
+    <tr><td>7</td><td>49</td><td>7</td><td>343</td><td>7</td></tr>
+    <tr><td>8</td><td>64</td><td>8</td><td>512</td><td>8</td></tr>
+    <tr><td>9</td><td>81</td><td>9</td><td>729</td><td>9</td></tr>
+    <tr><td>10</td><td>100</td><td>10</td><td>1000</td><td>10</td></tr>
+  </tbody>
+</table>
+
+<div class="sec-label">Розібрані приклади</div>
+<div class="ex-grid">
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-pink">1</span><span class="ex-title-txt">Evaluate \(3\times(\sqrt{81}-7)\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">дужки</span><span>\(\sqrt{81}=9\) → \(9-7=2\)</span></div>
+      <div class="ex-row"><span class="ex-tag">крок</span><span>\(3\times2=6\)</span></div>
+      <div class="ans-row ans-pink"><span class="ans-label">Відповідь</span><span class="ans-val av-pink">\(6\)</span></div>
+    </div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-purple">2</span><span class="ex-title-txt">Evaluate \(\dfrac{\sqrt{144}-2}{5}\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">чисельник</span><span>\(\sqrt{144}=12\) → \(12-2=10\)</span></div>
+      <div class="ex-row"><span class="ex-tag">крок</span><span>\(10\div5=2\)</span></div>
+      <div class="ans-row ans-purple"><span class="ans-label">Відповідь</span><span class="ans-val av-purple">\(2\)</span></div>
+    </div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-green">3</span><span class="ex-title-txt">Evaluate \(\sqrt[3]{-64}\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">думай</span><span>Яке число у кубі = -64?</span></div>
+      <div class="ex-row"><span class="ex-tag">крок</span><span>\((-4)^3=-64\) → \(\sqrt[3]{-64}=-4\)</span></div>
+      <div class="ans-row ans-green"><span class="ans-label">Відповідь</span><span class="ans-val av-green">\(-4\)</span></div>
+    </div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-orange">4</span><span class="ex-title-txt">Evaluate \(4\times\sqrt[3]{64}+10^2\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">крок 1</span><span>\(\sqrt[3]{64}=4\)</span></div>
+      <div class="ex-row"><span class="ex-tag">крок 2</span><span>\(4\times4=16\)</span></div>
+      <div class="ex-row"><span class="ex-tag">крок 3</span><span>\(16+100=116\)</span></div>
+      <div class="ans-row ans-orange"><span class="ans-label">Відповідь</span><span class="ans-val av-orange">\(116\)</span></div>
+    </div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-pink">5</span><span class="ex-title-txt">Evaluate \(\dfrac{6^2-6}{\sqrt[3]{27}}\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">чисельник</span><span>\(36-6=30\)</span></div>
+      <div class="ex-row"><span class="ex-tag">знаменник</span><span>\(\sqrt[3]{27}=3\)</span></div>
+      <div class="ex-row"><span class="ex-tag">крок</span><span>\(30\div3=10\)</span></div>
+      <div class="ans-row ans-pink"><span class="ans-label">Відповідь</span><span class="ans-val av-pink">\(10\)</span></div>
+    </div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-purple">6</span><span class="ex-title-txt">Evaluate \((2^2+\sqrt{9})^2\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">дужки</span><span>\(2^2=4,\ \sqrt{9}=3\) → \(4+3=7\)</span></div>
+      <div class="ex-row"><span class="ex-tag">крок</span><span>\(7^2=49\)</span></div>
+      <div class="ans-row ans-purple"><span class="ans-label">Відповідь</span><span class="ans-val av-purple">\(49\)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- HW TOPIC 2 -->
+<div class="hw-header">
+  <div><h3>Завдання — Тема 2</h3><p>Foundation → Medium → Higher</p></div>
+  <span class="hw-badge">10 задач</span>
+</div>
+<div class="hw-grid">
+  <div class="hw-item lv-f"><div class="hw-lv">Foundation</div><div class="hw-num">1</div><div class="hw-q">\(\sqrt{49}\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-f"><div class="hw-lv">Foundation</div><div class="hw-num">2</div><div class="hw-q">\(\sqrt[3]{27}\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-f"><div class="hw-lv">Foundation</div><div class="hw-num">3</div><div class="hw-q">\(\sqrt{121}+\sqrt[3]{8}\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-f"><div class="hw-lv">Foundation</div><div class="hw-num">4</div><div class="hw-q">\(4^2-12\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-m"><div class="hw-lv">Medium</div><div class="hw-num">5</div><div class="hw-q">\(\dfrac{\sqrt{81}}{12-9}\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-m"><div class="hw-lv">Medium</div><div class="hw-num">6</div><div class="hw-q">\(5^3+(4-2)^3\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-m"><div class="hw-lv">Medium</div><div class="hw-num">7</div><div class="hw-q">\(4\times\sqrt[3]{1000}-35\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-m"><div class="hw-lv">Medium</div><div class="hw-num">8</div><div class="hw-q">\(\dfrac{\sqrt{100}}{2}+10^2\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-h"><div class="hw-lv">Higher</div><div class="hw-num">9</div><div class="hw-q">\(\dfrac{20}{\sqrt[3]{125}}-2^2\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-h"><div class="hw-lv">Higher</div><div class="hw-num">10</div><div class="hw-q">\((5\times6-26)^3+\sqrt[3]{-8}\)</div><hr class="hw-line"></div>
+</div>
+<div class="ans-key">
+  <div class="ans-key-head">Відповіді — Тема 2</div>
+  <div class="ans-key-body">
+    <div class="ans-item"><strong>1</strong>7</div>
+    <div class="ans-item"><strong>2</strong>3</div>
+    <div class="ans-item"><strong>3</strong>13</div>
+    <div class="ans-item"><strong>4</strong>4</div>
+    <div class="ans-item"><strong>5</strong>3</div>
+    <div class="ans-item"><strong>6</strong>133</div>
+    <div class="ans-item"><strong>7</strong>5</div>
+    <div class="ans-item"><strong>8</strong>105</div>
+    <div class="ans-item"><strong>9</strong>0</div>
+    <div class="ans-item"><strong>10</strong>−10</div>
+  </div>
+</div>
+</div><!-- /topic2 -->
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     TOPIC 3 — SURDS
+══════════════════════════════════════════════════════════════ -->
+<div id="topic3">
+<div class="topic-header">
+  <div>
+    <h2>Тема 3 · Surds — Operations</h2>
+    <p>Множення, ділення, спрощення, додавання і віднімання сурдів</p>
+  </div>
+  <span class="topic-badge tb-green">\(a\sqrt{b}\)</span>
+</div>
+
+<div class="sec-label">Чотири основні правила</div>
+<div class="rules-grid">
+  <div class="rule-card">
+    <div class="rule-head rh-pink"><span class="rule-tag rt-pink">Rule 1</span><span class="rule-name">Multiplication — Множення</span></div>
+    <div class="rule-body">
+      <div class="rule-formula">\(\sqrt{a}\times\sqrt{b}=\sqrt{a\times b}\)</div>
+      <div class="rule-note">Множимо те, що під коренями, об'єднуємо у один корінь</div>
+      <div class="rule-ex">\(\sqrt{5}\times\sqrt{15}=\sqrt{75}=5\sqrt{3}\)</div>
+    </div>
+  </div>
+  <div class="rule-card">
+    <div class="rule-head rh-purple"><span class="rule-tag rt-purple">Rule 2</span><span class="rule-name">Division — Ділення</span></div>
+    <div class="rule-body">
+      <div class="rule-formula">\(\sqrt{a}\div\sqrt{b}=\sqrt{a\div b}\)</div>
+      <div class="rule-note">Ділимо те, що під коренями</div>
+      <div class="rule-ex">\(\sqrt{40}\div\sqrt{10}=\sqrt{4}=2\)</div>
+    </div>
+  </div>
+  <div class="rule-card">
+    <div class="rule-head rh-green"><span class="rule-tag rt-green">Rule 3</span><span class="rule-name">Simplify — Спрощення</span></div>
+    <div class="rule-body">
+      <div class="rule-formula">\(\sqrt{a\times b}=\sqrt{a}\times\sqrt{b}\)</div>
+      <div class="rule-note">Знайди найбільший <strong>повний квадрат</strong>-дільник, виноси його корінь перед знак кореня</div>
+      <div class="rule-ex">\(\sqrt{12}=\sqrt{4\times3}=2\sqrt{3}\)</div>
+    </div>
+  </div>
+  <div class="rule-card">
+    <div class="rule-head rh-orange"><span class="rule-tag rt-orange">Rule 4</span><span class="rule-name">Addition/Subtraction — Збирання</span></div>
+    <div class="rule-body">
+      <div class="rule-formula">\(a\sqrt{c}\pm b\sqrt{c}=(a\pm b)\sqrt{c}\)</div>
+      <div class="rule-note">Збирати можна ТІЛЬКИ <strong>однакові</strong> сурди. Спочатку спрости кожен корінь</div>
+      <div class="rule-ex">\(2\sqrt{3}+6\sqrt{3}=8\sqrt{3}\)</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec-label">Алгоритм спрощення \(\sqrt{n}\)</div>
+<div class="alert alert-pink" style="margin-bottom:0;">
+  <div class="alert-icon">📋</div>
+  <div class="alert-body">
+    <h4>Кроки для спрощення сурду</h4>
+    <p>
+      <strong>Крок 1:</strong> Знайди найбільший множник числа, що є повним квадратом (4, 9, 16, 25, 36, 49…)<br>
+      <strong>Крок 2:</strong> Розбий: \(\sqrt{n}=\sqrt{\text{квадрат}\times\text{решта}}\)<br>
+      <strong>Крок 3:</strong> Розділи: \(=\sqrt{\text{квадрат}}\times\sqrt{\text{решта}}\)<br>
+      <strong>Крок 4:</strong> Обчисли корінь з квадрата і запиши відповідь: \(k\sqrt{m}\)
+    </p>
+  </div>
+</div>
+
+<div class="sec-label">Розібрані приклади</div>
+<div class="ex-grid">
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-pink">1</span><span class="ex-title-txt">Simplify \(\sqrt{12}+2\sqrt{27}\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">спрости 1</span><span>\(\sqrt{12}=\sqrt{4\times3}=2\sqrt{3}\)</span></div>
+      <div class="ex-row"><span class="ex-tag">спрости 2</span><span>\(\sqrt{27}=\sqrt{9\times3}=3\sqrt{3}\) → \(2\times3\sqrt{3}=6\sqrt{3}\)</span></div>
+      <div class="ex-row"><span class="ex-tag">збери</span><span>\(2\sqrt{3}+6\sqrt{3}=8\sqrt{3}\)</span></div>
+      <div class="ans-row ans-pink"><span class="ans-label">Відповідь</span><span class="ans-val av-pink">\(8\sqrt{3}\)</span></div>
+    </div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-purple">2</span><span class="ex-title-txt">Find \(\sqrt{5}\times\sqrt{15}\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">правило 1</span><span>\(\sqrt{5}\times\sqrt{15}=\sqrt{75}\)</span></div>
+      <div class="ex-row"><span class="ex-tag">спрости</span><span>\(\sqrt{75}=\sqrt{25\times3}=5\sqrt{3}\)</span></div>
+      <div class="ans-row ans-purple"><span class="ans-label">Відповідь</span><span class="ans-val av-purple">\(5\sqrt{3}\)</span></div>
+    </div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-green">3</span><span class="ex-title-txt">Find \(\sqrt{72}\div\sqrt{2}\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">правило 2</span><span>\(\sqrt{72}\div\sqrt{2}=\sqrt{72\div2}=\sqrt{36}\)</span></div>
+      <div class="ex-row"><span class="ex-tag">крок</span><span>\(\sqrt{36}=6\)</span></div>
+      <div class="ans-row ans-green"><span class="ans-label">Відповідь</span><span class="ans-val av-green">\(6\)</span></div>
+    </div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-orange">4</span><span class="ex-title-txt">Simplify \(2\sqrt{32}+3\sqrt{2}\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">спрости</span><span>\(\sqrt{32}=\sqrt{16\times2}=4\sqrt{2}\)</span></div>
+      <div class="ex-row"><span class="ex-tag">підстав</span><span>\(2\times4\sqrt{2}+3\sqrt{2}=8\sqrt{2}+3\sqrt{2}\)</span></div>
+      <div class="ex-row"><span class="ex-tag">збери</span><span>\(11\sqrt{2}\)</span></div>
+      <div class="ans-row ans-orange"><span class="ans-label">Відповідь</span><span class="ans-val av-orange">\(11\sqrt{2}\)</span></div>
+    </div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-pink">5</span><span class="ex-title-txt">Simplify \(7\sqrt{7}-3\sqrt{7}\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">однакові</span><span>Обидва мають \(\sqrt{7}\) → можна збирати</span></div>
+      <div class="ex-row"><span class="ex-tag">крок</span><span>\((7-3)\sqrt{7}=4\sqrt{7}\)</span></div>
+      <div class="ans-row ans-pink"><span class="ans-label">Відповідь</span><span class="ans-val av-pink">\(4\sqrt{7}\)</span></div>
+    </div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-letter el-purple">6</span><span class="ex-title-txt">Simplify \(\sqrt{108}+2\sqrt{300}\)</span></div>
+    <div class="ex-body">
+      <div class="ex-row"><span class="ex-tag">спрости 1</span><span>\(\sqrt{108}=\sqrt{36\times3}=6\sqrt{3}\)</span></div>
+      <div class="ex-row"><span class="ex-tag">спрости 2</span><span>\(\sqrt{300}=\sqrt{100\times3}=10\sqrt{3}\) → \(2\times10\sqrt{3}=20\sqrt{3}\)</span></div>
+      <div class="ex-row"><span class="ex-tag">збери</span><span>\(6\sqrt{3}+20\sqrt{3}=26\sqrt{3}\)</span></div>
+      <div class="ans-row ans-purple"><span class="ans-label">Відповідь</span><span class="ans-val av-purple">\(26\sqrt{3}\)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="two-col-alert">
+  <div class="alert alert-red">
+    <div class="alert-icon">❌</div>
+    <div class="alert-body">
+      <h4>Не можна збирати різні сурди</h4>
+      <p>\(2\sqrt{3}+3\sqrt{7}\neq5\sqrt{10}\) — це НЕ спрощується далі, сурди різні!</p>
+    </div>
+  </div>
+  <div class="alert alert-green">
+    <div class="alert-icon">✅</div>
+    <div class="alert-body">
+      <h4>Завжди спрощуй спочатку</h4>
+      <p>Перед додаванням спрости кожен корінь окремо — може виявитись, що сурди стануть однаковими.</p>
+    </div>
+  </div>
+</div>
+
+<!-- HW TOPIC 3 -->
+<div class="hw-header">
+  <div><h3>Завдання — Тема 3</h3><p>Foundation → Medium → Higher</p></div>
+  <span class="hw-badge">10 задач</span>
+</div>
+<div class="hw-grid">
+  <div class="hw-item lv-f"><div class="hw-lv">Foundation</div><div class="hw-num">1</div><div class="hw-q">\(\sqrt{2}\times\sqrt{8}\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-f"><div class="hw-lv">Foundation</div><div class="hw-num">2</div><div class="hw-q">Simplify \(\sqrt{50}\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-f"><div class="hw-lv">Foundation</div><div class="hw-num">3</div><div class="hw-q">\(2\sqrt{5}+3\sqrt{5}\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-f"><div class="hw-lv">Foundation</div><div class="hw-num">4</div><div class="hw-q">\(\sqrt{90}\div\sqrt{10}\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-m"><div class="hw-lv">Medium</div><div class="hw-num">5</div><div class="hw-q">\(\sqrt{3}\times\sqrt{12}\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-m"><div class="hw-lv">Medium</div><div class="hw-num">6</div><div class="hw-q">\(2\sqrt{27}-3\sqrt{3}\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-m"><div class="hw-lv">Medium</div><div class="hw-num">7</div><div class="hw-q">\(5\sqrt{7}+3\sqrt{28}\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-m"><div class="hw-lv">Medium</div><div class="hw-num">8</div><div class="hw-q">\(\sqrt{40}\times\sqrt{2}\div\sqrt{8}\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-h"><div class="hw-lv">Higher</div><div class="hw-num">9</div><div class="hw-q">\(2\sqrt{125}-3\sqrt{80}\)</div><hr class="hw-line"></div>
+  <div class="hw-item lv-h"><div class="hw-lv">Higher</div><div class="hw-num">10</div><div class="hw-q">\(5\sqrt{294}-3\sqrt{216}\)</div><hr class="hw-line"></div>
+</div>
+<div class="ans-key">
+  <div class="ans-key-head">Відповіді — Тема 3</div>
+  <div class="ans-key-body">
+    <div class="ans-item"><strong>1</strong>4</div>
+    <div class="ans-item"><strong>2</strong>\(5\sqrt{2}\)</div>
+    <div class="ans-item"><strong>3</strong>\(5\sqrt{5}\)</div>
+    <div class="ans-item"><strong>4</strong>3</div>
+    <div class="ans-item"><strong>5</strong>6</div>
+    <div class="ans-item"><strong>6</strong>\(3\sqrt{3}\)</div>
+    <div class="ans-item"><strong>7</strong>\(11\sqrt{7}\)</div>
+    <div class="ans-item"><strong>8</strong>\(\sqrt{10}\)</div>
+    <div class="ans-item"><strong>9</strong>\(-2\sqrt{5}\)</div>
+    <div class="ans-item"><strong>10</strong>\(5\sqrt{6}\)</div>
+  </div>
+</div>
+</div><!-- /topic3 -->
+
+<footer class="footer">
+  <span>GCSE Maths · Surds &amp; Indices · Шпаргалка</span>
+  <span>(-a)ⁿ · √a · ∛a · a√b</span>
+</footer>
+
+</div><!-- .page -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left:"\\(", right:"\\)", display:false},
+      {left:"\\[", right:"\\]", display:true}
+    ],
+    throwOnError: false
+  });
+});
+</script>
+</body>
+</html>
